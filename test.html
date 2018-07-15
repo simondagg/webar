@@ -1,18 +1,11 @@
-
 <video id="video" autoplay></video>
 <button type="button" id="flip-button">Click Me!</button>
 <script>
 
-var elem = document.getElementById("video");
-     if(elem.requestFullscreen) {
-         elem.requestFullscreen();
-     }
 // Prefer camera resolution nearest to 1280x720.
-
 var front = false;
 document.getElementById('flip-button').onclick = function() { front = !front; };
-var constraints = { video: { width: 1280, height: 720 facingMode: (front? "user" : "environment") } }; 
-
+var constraints = { video: {   facingMode: (front? "user" : "environment"), width: 1280, height: 720 } }; 
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(mediaStream) {
   var video = document.querySelector('video');
@@ -22,5 +15,4 @@ navigator.mediaDevices.getUserMedia(constraints)
   };
 })
 .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
-
 </script>
