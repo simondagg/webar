@@ -1,10 +1,10 @@
 <video id="video" autoplay></video>
-<button type="button" id="flip-button">Click Me!</button>
+
 <script>
 
 // Prefer camera resolution nearest to 1280x720.
 var front = false;
-document.getElementById('flip-button').onclick = function() { front = !front; };
+
 var constraints = { video: {   facingMode: (front? "user" : "environment"), width: 1280, height: 720 } }; 
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(mediaStream) {
