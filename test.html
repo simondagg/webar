@@ -7,7 +7,9 @@ var elem = document.getElementById("video");
          elem.requestFullscreen();
      }
 // Prefer camera resolution nearest to 1280x720.
-var constraints = { video: { width: 1280, height: 720 } }; 
+var front = false;
+document.getElementById('flip-button').onclick = function() { front = !front; };
+var constraints = { video: { width: 1280, height: 720 facingMode: (front? "user" : "environment") } }; 
 
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(mediaStream) {
