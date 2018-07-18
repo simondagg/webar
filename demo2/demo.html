@@ -53,7 +53,10 @@
             document.getElementById('camera').setAttribute('position', coordinate);
            
         }
-        navigator.geolocation.getCurrentPosition(success, error);    
+        window.addEventListener('geolocation', navigator.geolocation.getCurrentPosition(success, error));
+           
+        
+         
     </script>
 </body>
 
