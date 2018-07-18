@@ -1,6 +1,6 @@
 var front = false;
 
-var constraints = { video: { facingMode: (front ? "user" : "environment"), width: 1280, height: 720 } };
+var constraints = { video: { facingMode: (front ? "user" : "environment"), width: 1920, height: 1080 } };
 navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
         var video = document.querySelector('video');
@@ -26,6 +26,4 @@ function getgps() {
     }
     navigator.geolocation.getCurrentPosition(success, error)
 }
-
 setInterval(getgps, 5000);
-
