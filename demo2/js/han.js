@@ -26,4 +26,7 @@ function getgps() {
     }
     navigator.geolocation.getCurrentPosition(success, error)
 }
+document.querySelector('a-box').addEventListener('collide', function (evt) {
+    console.log('This A-Frame entity collided with another entity!');
+  });
 setInterval(getgps, 5000);
