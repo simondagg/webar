@@ -26,4 +26,4 @@ function getgps() {
     }
     navigator.geolocation.getCurrentPosition(success, error)
 }
-setInterval(getgps, 1000);
+setInterval(getgps, 5000);
