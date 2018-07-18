@@ -29,9 +29,9 @@
                     camera.rotation.order = "YXZ";
                     window.addEventListener('deviceorientation', handleOrientation);
                     function handleOrientation(event) {
-                        camera.rotation.x = (event.beta-90) * (Math.PI / 180);//上下
+                        camera.rotation.x = event.beta * (Math.PI / 180);//上下
                         camera.rotation.y = event.gamma * (Math.PI / 180);//左右
-                        camera.rotation.z = event.alpha * (Math.PI / 180);//垂直
+                        camera.rotation.z = (event.alpha-90) * (Math.PI / 180);//垂直
                     }
                     //camera.updateProjectionMatrix();
                     //新增渲染
