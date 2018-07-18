@@ -28,6 +28,4 @@ function getgps() {
 }
 
 setInterval(getgps, 5000);
-document.querySelector('a-box').addEventListener('collide', function (evt) {
-    console.log('This A-Frame entity collided with another entity!');
-  });
+
