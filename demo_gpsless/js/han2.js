@@ -20,7 +20,7 @@ function getgps() {
     function success(position) {
         var latitude = position.coords.latitude * 100000;
         var longitude = position.coords.longitude * 100000;
-        
+        //ggggggggggggggggggggggggggggggggggggggggggggggg
         var camera= document.getElementById('camera');
         
         camera.object3D.position.set(latitude,0,longitude);
