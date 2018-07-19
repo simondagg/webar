@@ -22,7 +22,7 @@ function getgps() {
         var longitude = position.coords.longitude * 100000;
         var coordinate = latitude.toString() + " 0 " + longitude.toString();
         document.getElementById('camera').setAttribute('position', coordinate);
-        var mikucoordinate = (latitude+3).toString() + " 0 " + (longitude+3).toString();
+        var mikucoordinate = (latitude+5).toString() + " 0 " + (longitude+5).toString();
         document.getElementById('miku').setAttribute('position', mikucoordinate);
 
     }
