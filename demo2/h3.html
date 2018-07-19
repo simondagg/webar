@@ -1,8 +1,47 @@
-<script src="js/aframe.min.js"></script>
+<head>
+    <style>
+        #video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        #sky {
+            position: fixed;
+        }
+        #miku {
+            position: fixed;
+        }
+        
+    </style>
+    <script src="js/aframe.min.js"></script>
+</head>
+<video id="video" autoplay></video>
+    <a-scene vr-mode-ui="enabled: false">
 <a-scene>
+   <a-sky transparent="True" id="sky"></a-sky>
+  
   <a-assets>
     <a-asset-item id="tree" src="./gltf/miku/scene.gltf"></a-asset-item>
   </a-assets>
 
-  <a-entity gltf-model="#tree" scale="2 2 2" position="5 0 5"></a-entity>
+  <a-entity id="miku" gltf-model="#tree" scale="1 1 1" position="5 0 5"></a-entity>
 </a-scene>
+         </a-scene>
+    <script>
+        var front = false;
+
+        var constraints = { video: { facingMode: (front ? "user" : "environment"), width: 1280, height: 720 } };
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (mediaStream) {
+                var video = document.querySelector('video');
+                video.srcObject = mediaStream;
+                video.onloadedmetadata = function (e) {
+                    video.play();
+                };
+            })
+            .catch(function (err) { console.log(err.name + ": " + err.message); });
+            
+    </script>
