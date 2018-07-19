@@ -20,10 +20,12 @@ function getgps() {
     function success(position) {
         var latitude = position.coords.latitude * 100000;
         var longitude = position.coords.longitude * 100000;
-        var coordinate = latitude.toString() + " 0 " + longitude.toString();
-        document.getElementById('camera').setAttribute('position', coordinate);
-        var mikucoordinate = (latitude+5).toString() + " 0 " + (longitude+5).toString();
-        document.getElementById('miku').setAttribute('position', mikucoordinate);
+        
+        var camera= document.getElementById('camera');
+        
+        camera.object3D.position.set(latitude,0,longitude);
+        
+        document.getElementById('miku')..object3D.position.set(camera.object3D.position.x+5,0, camera.object3D.position.z+5);
 
     }
     navigator.geolocation.getCurrentPosition(success, error)
