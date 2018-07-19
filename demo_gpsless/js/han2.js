@@ -25,7 +25,7 @@ function getgps() {
         
         camera.object3D.position.set(latitude,0,longitude);
         
-        document.getElementById('miku')..object3D.position.set(camera.object3D.position.x+5,0, camera.object3D.position.z+5);
+        document.getElementById('miku').object3D.position.set(camera.object3D.position.x+5,0, camera.object3D.position.z+5);
 
     }
     navigator.geolocation.getCurrentPosition(success, error)
