@@ -45,7 +45,13 @@
             })
             .catch(function (err) { console.log(err.name + ": " + err.message); });
             var box = document.querySelector( 'a-box' );
-            box.addEventListener('click', function (evt) {alert("hi")});
+            box.addEventListener('touchend', function (evt) { box.setAttribute( 'scale',
+                {
+                    x: 4,
+                    y: 1,
+                    z: 6
+                } );
+            } );
     </script>
 </body>
 
