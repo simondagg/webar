@@ -24,7 +24,7 @@ function getgps() {
       
         var camera= document.getElementById('camera');
         
-         camera..object3D.position.set(latitude,0,longitude)
+         camera.object3D.position.set(latitude,0,longitude);
         document.getElementById('box').object3D.position.set(camera.object3D.position.x+5,0, camera.object3D.position.z+5);
 
     }
