@@ -1,6 +1,6 @@
 var front = false;
 
-var constraints = { video: { facingMode: (front ? "user" : "environment"), width: 800, height: 450 } };
+var constraints = { video: { facingMode: (front ? "user" : "environment"), width: 400, height: 225 } };
 navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
         var video = document.querySelector('video');
