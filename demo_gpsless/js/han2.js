@@ -1,7 +1,7 @@
 var front = false;
 
-var constraints = { video: { facingMode: (front ? "user" : "environment"), width: { min: 1024, ideal: 1280, max: 1920 },
-    height: { min: 776, ideal: 720, max: 1080 } } };
+var constraints = { video: { facingMode: (front ? "user" : "environment"), width: { min: 1024, ideal: 1280, max: 4032 },
+    height: { min: 776, ideal: 720, max: 3024 } } };
 navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
         var video = document.querySelector('video');
