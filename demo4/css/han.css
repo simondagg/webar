@@ -12,7 +12,8 @@
             position: fixed;
             right: 45%;
             bottom: 0;
-            min-width: 5%;
-            min-height: 5%;
+            min-width: 10%;
+            min-height: 10%;
             background-color : transparent;
+            border-color : transparent;
         }
