@@ -32,7 +32,7 @@
          x = x - 5 * Math.sin(y);
      }
      var obj = document.createElement('a-box');
-     obj.setAttribute("id", "box");
+     //obj.setAttribute("id", "box");
      obj.setAttribute('color', '#4CC3D9');
      obj.setAttribute('position',{x: x, y: 0, z: z});
      scene.appendChild(obj);
