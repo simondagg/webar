@@ -1,0 +1,27 @@
+<p id="location">
+
+</p>
+
+<script>
+    function getgps() {
+
+function error() {
+    alert("Unable to retrieve your location");
+}
+
+
+function success(position) {
+    var latitude = position.coords.latitude * 100000;
+    var longitude = position.coords.longitude * 100000;
+ 
+   
+    
+    document.getElementById("location").innerHTML="x : "+latitude.toString()+'<br>'+'y :'+longitude.toString();
+    
+   
+
+}
+navigator.geolocation.getCurrentPosition(success, error)
+}
+setInterval(getgps,1000);
+</script>
