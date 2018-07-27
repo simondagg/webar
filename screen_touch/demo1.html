@@ -1,36 +1,179 @@
 <html>
 
 <head>
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+   
+    <script src="js/aframe.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Semantic-UI-CSS-master/semantic.min.css">
+
+    <style>
+  
+        #sky {
+            position: fixed;
+        }
+        #setobj{
+            position: fixed;
+            right: 45%;
+            bottom: 0;
+            min-width: 5%;
+            min-height: 5%;
+            background-color : transparent;
+        }
+        .add_fri {
+            display: none;
+            position: fixed;
+            right: 20%;
+            bottom: 40%;
+          
+            
+        }
+        .add_ads {
+            display: none;
+            position: fixed;
+            right: 20%;
+            bottom: 40%;
+        }
+     
+       
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+    <script src="Semantic-UI-CSS-master/semantic.min.js"></script>
 </head>
 
 <body>
-    <a-scene>
-        <a-box position="0 2 -6" color="#4CC3D9"></a-box>
+    <a-scene vr-mode-ui="enabled: false">
+        <a-camera id="camera"></a-camera>
+        <a-box position="0 2 -8" color="#4CC3D9"></a-box>
         <a-sphere id="ball" position="0 2 -5" radius="0.1" color="#EF2D5E"></a-sphere>
-        <a-carema id="carema" position="0 0 0" rotation="0 0 0"></a-carema>
+
 
     </a-scene>
+    <a-sky transparent="True" id="sky"></a-sky>
+    </a-scene>
+    <button type="button" onclick="a()" id="setobj">
+        <img src="img/button_resized.png">
+    </button>
+ <!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+ 
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <div class="add_fri" id="fri">
+
+        <div class="ui message">
+            <i class="close icon" onclick="hiddenMessage()"></i>
+            <div class="header" style="font-family:'微軟正黑體'; font-size:150%">
+                小瑄
+                <i class="female icon" style="color:rgb(252, 150, 201)"></i>
+            </div>
+            <br>
+            <p>FB：陳瑄</p>
+            <br>
+            <!--此物件id需要在創建物件時就要給他嵌入 此為直接填入-->
+            <div id="AKQAAZSYRAKFPQSY" class="extra content">
+
+                <button class="ui basic button like addfriend" onclick="object_addfriend(this.parentNode.id)">
+                    <i class="like icon"></i>
+                    加好友
+                </button>
+                <button class="ui basic button bullhorn report addfriend" onclick="object_report(this.parentNode.id)">
+                    <i class="bullhorn icon"></i>
+                    檢舉
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="add_ads" id="ads">
+
+        <div class="ui message">
+            <i class="close icon" onclick="hiddenMessage1()"></i>
+            <div class="header" style="font-family:'微軟正黑體'; font-size:150%">
+                便宜賣房
+                <i class="tag icon" style="color:cornflowerblue"></i>
+            </div>
+            <br>
+            <p>198坪電梯豪宅</p>
+            <p>設施完善，安全無虞</p>
+            <p>歡迎看房!!!</p>
+            <p>地址：吉安鄉農會超市前</p>
+            <br>
+            <!--此物件id需要在創建物件時就要給他嵌入 此為直接填入-->
+            <div id="PZXEFZTFXGNFRBIT" class="extra content">
+
+                <button class="ui basic button like collect" onclick="object_collection(this.parentNode.id)">
+                    <i class="like icon"></i>
+                    收藏
+                </button>
+                <button class="ui basic button bullhorn report collect" onclick="object_report(this.parentNode.id)">
+                    <i class="bullhorn icon"></i>
+                    檢舉
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
     <Script>
-        var camera = document.querySelector('a-camera');
-        var ball =document.querySelector('a-sphere');
-        window.addEventListener('deviceorientation', function (event) {
+        //document.querySelector('a-sphere').object3D.position.x=5;
+        window.addEventListener('deviceorientation', function () {
+            var camera = document.querySelector('a-camera');
             var x = camera.object3D.position.x, z = camera.object3D.position.z;
-            var y = camera.object3D.rotation.y;
+            var y = 2;
+            var r_y = camera.object3D.rotation.y;// theta/180*pi   
+            var r_x = camera.object3D.rotation.x;
+            if (r_y == 0) {
+                z = z - 5;
 
-            if (y == 0) {
-         z = z - 5;
-     }
-     else {
-         z = z - 5 * Math.cos(y);
-         x = x - 5 * Math.sin(y);
-     }
+            }
+            else {
+                z = z - 5 * Math.cos(r_y);
+                x = x - 5 * Math.sin(r_y);
 
-            obj.setAttribute('position',{x: x, y: 0, z: z});
+            }
+            y = y + 5 * Math.sin(r_x);
 
 
+            var ball = document.querySelector('a-sphere');
+            ball.setAttribute('position', { x: x, y: y, z: z });
 
-        }, false);
+            var ball = document.querySelector('a-sphere');
+            var box = document.querySelector('a-box');
+
+
+
+        });
+
+
+
+
+        function a() {
+            var ball = document.querySelector('a-sphere');
+            var box = document.querySelector('a-box');
+
+            var b_x = ball.object3D.position.x;
+            var b_y = ball.object3D.position.y;
+            var o_x = box.object3D.position.x;
+            var o_y = box.object3D.position.y;
+            if ((b_x <= o_x + 0.5 && b_x >= o_x - 0.5) && (b_y <= o_y + 0.5 && b_y >= o_y - 0.5)) {
+                openDialog()
+            }
+
+        }
+
+        function openDialog() {
+            document.getElementById('ads').style.display = 'block';
+       
+        }
+        function hiddenMessage1(){
+            document.getElementById('ads').style.display = 'none';
+            document.getElementById('fri').style.display = 'block';
+        }
 
     </Script>
 </body>
