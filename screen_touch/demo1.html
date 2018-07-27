@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-box position="0 2 -6" color="#4CC3D9"></a-box>
+        <a-sphere id="ball" position="0 2 -5" radius="0.1" color="#EF2D5E"></a-sphere>
+        <a-carema id="carema" position="0 0 0" rotation="0 0 0"></a-carema>
+
+    </a-scene>
+    <Script>
+        var camera = document.querySelector('a-camera');
+        var ball =document.querySelector('a-sphere');
+        window.addEventListener('deviceorientation', function (event) {
+            var x = camera.object3D.position.x, z = camera.object3D.position.z;
+            var y = camera.object3D.rotation.y;
+
+            if (y == 0) {
+         z = z - 5;
+     }
+     else {
+         z = z - 5 * Math.cos(y);
+         x = x - 5 * Math.sin(y);
+     }
+
+            obj.setAttribute('position',{x: x, y: 0, z: z});
+
+
+
+        }, false);
+
+    </Script>
+</body>
+
+</html>
