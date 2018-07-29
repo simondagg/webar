@@ -1,0 +1,12 @@
+<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<a-scene>
+  <a-assets>
+    <a-asset-item id="crate-obj" src="./crate.obj"></a-asset-item>
+    <a-asset-item id="crate-mtl" src="./crate.mtl"></a-asset-item>
+  </a-assets>
+
+  <!-- Using the asset management system. -->
+  <a-obj-model src="#crate-obj" mtl="#crate-mtl" scale="0.01 0.01 0.01" position="0 2 -5"></a-obj-model>
+
+
+</a-scene>
