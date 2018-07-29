@@ -96,7 +96,7 @@
         <a-camera id="camera"></a-camera>
         <a-box position="0 2 -8" color="#4CC3D9"></a-box>
         <a-sphere visible="false" id="ball" position="0 2 -1" radius="0.05"></a-sphere>
-        <a-obj-model src="#crate-obj1" mtl="#crate-mtl1" scale="0.005 0.005 0.005" position="0 2 -5"></a-obj-model>
+        <a-obj-model src="#crate-obj1" mtl="#crate-mtl1" scale="0.005 0.005 0.005" position="-5 2 0"></a-obj-model>
 
 
 
@@ -345,7 +345,7 @@
             obj.setAttribute('src', '#crate-obj');
             obj.setAttribute('mtl', '#crate-mtl');
             obj.setAttribute('scale', '0.005 0.005 0.00');
-            obj.setAttribute('position', { x: c_x, y: -20, z: c_z });
+            obj.setAttribute('position', { x: c_x, y: 0, z: c_z });
             scene.appendChild(obj);
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
