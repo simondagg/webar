@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-box id="box" position="0 0 0" rotation="0 45 0" color="#4CC3D9"></a-box>
+    
+        <a-camera position="0 0 0"></a-camera>
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+    <script>
+    var camera = document.querySelector('a-camera');
+    var c_x = camera.object3D.position.x, c_z = camera.object3D.position.z;
+            var c_y = camera.object3D.rotation.y;// theta/180*pi         
+            if (c_y == 0) {
+                c_z = c_z - 5;
+            }
+            else {
+                c_z = c_z - 5 * Math.cos(c_y);
+                c_x = c_x - 5 * Math.sin(c_y);
+            }
+            
+            var box = document.getElementById('box');
+            box.setAttribute('position', { x: c_x, y: 0, z: c_z });
+     
+
+    </script>
+  </body>
+</html>
