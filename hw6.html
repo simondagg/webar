@@ -1,0 +1,196 @@
+<button type="button" onclick="show_t()">start</button>
+<button type="button" onclick="stop_t()">stop</button>
+<p id="start_time"></p>
+<p id="theta_time"></p>
+<p id="a_value"></p>
+<p id="v_x"></p>
+<p id="v_y"></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<canvas id="line-chart" width="1600" height="450"></canvas>
+<canvas id="line-chart2" width="1600" height="450"></canvas>
+<canvas id="line-chart3" width="1600" height="450"></canvas>
+<canvas id="line-chart4" width="1600" height="450"></canvas>
+
+<script>
+    var start_time = 0;
+    var a_xs = [];
+    var a_ys = [];
+    var t_arry = [];
+    var re_get_times;
+    var dt;
+    var accGravity;
+    var acc_x=0,acc_y=0;
+    var v_x=0,v_y=0;
+    var v_xs=[],v_ys=[];
+    var smoothing=0.5;
+
+
+    function show_t() {
+        start_time = (new Date()).valueOf();
+
+        window.addEventListener("devicemotion", function (event) {
+
+            accGravity = event.accelerationIncludingGravity;
+         
+                acc_x=accGravity.x;
+           
+           
+                acc_y=accGravity.y;
+            
+
+        })
+
+        re_get_times = setInterval(get_times, 16);
+    }
+    function get_times() {
+        var end_time = (new Date()).valueOf();
+        dt = end_time - start_time;
+        document.getElementById("theta_time").innerHTML = dt;
+        t_arry.push(dt);
+        a_xs.push(acc_x);
+        a_ys.push(acc_y);
+
+
+    }
+    function stop_t() {
+        clearInterval(re_get_times);
+        get_v();
+        chart_data();
+    }
+
+    function get_v(){
+        smoothing = 0.16;
+        a_xs=lps_smoothArray(a_xs);
+        a_ys=lps_smoothArray(a_ys);
+
+
+
+
+        v_x=0,v_y=0;
+        var ts;
+        v_xs=[],v_ys=[];
+        for(var i = 1;i<t_arry.length;i++){
+            ts= (t_arry[i]-t_arry[i-1])/1000;
+            v_x=v_x+(a_xs[i-1]+a_xs[i])*ts/2;
+            v_y=v_y+(a_ys[i-1]+a_ys[i])*ts/2;
+            v_xs.push(v_x);
+            v_ys.push(v_y);
+
+
+
+
+        }
+
+
+
+
+    }
+    function lps_smoothArray (values){
+        var value = values[0];
+        for (var i = 1; i < values.length; i++){
+            var currentValue = values[i];
+            value += (currentValue - value) * smoothing;
+            values[i] = Math.round(value);
+        }
+        return values;
+    }
+
+    function hps_smoothArray (values){
+        var value = values[0];
+        for (var i = 1; i < values.length; i++){
+            var currentValue = values[i];
+            value += (currentValue - value) * smoothing;
+            values[i] = Math.round(value);
+        }
+        return values;
+    }
+
+    function chart_data() {
+
+        new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+                labels: t_arry,
+                datasets: [{
+                    data: v_xs,
+                    label: "v_x",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'v/t'
+                }
+            }
+        });
+
+
+        new Chart(document.getElementById("line-chart2"), {
+            type: 'line',
+            data: {
+                labels: t_arry,
+                datasets: [{
+                    data: v_ys,
+                    label: "v_y",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'v/t'
+                }
+            }
+        });
+
+         new Chart(document.getElementById("line-chart3"), {
+            type: 'line',
+            data: {
+                labels: t_arry,
+                datasets: [{
+                    data: a_xs,
+                    label: "acc_x",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'a/t'
+                }
+            }
+        });
+
+
+        new Chart(document.getElementById("line-chart4"), {
+            type: 'line',
+            data: {
+                labels: t_arry,
+                datasets: [{
+                    data: a_ys,
+                    label: "acc_y",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'a/t'
+                }
+            }
+        });
+
+
+
+
+    }
+</script>
