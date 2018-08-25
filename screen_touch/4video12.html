@@ -1,0 +1,28 @@
+<script>
+
+function geolocation(){
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
+    } else{
+        console.log('Geolocation is not support by this browser');
+    }
+}
+function geo_success(position){
+    var crd = position.coords;
+    
+    console.log('latitude: ' + crd.latitude);
+    console.log('longitude: ' + crd.longitude);
+
+}
+function geo_error(err){
+    console.warn('ERROE(' + err.code + '): ' + err.message)
+}
+var geo_options = {
+    enableHighAccuracy: true,
+    maxmumAge:60000,
+    timeout:10000 
+};
+geolocation();
+
+
+</script>
