@@ -1,12 +1,12 @@
 <script src="js/aframe.min.js"></script>
-<a-scene>
+<a-scene id="scene" vr-mode-ui="enabled: false">
     <a-camera id="camera" position="0 0 0"></a-camera>
     <a-assets>
         <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf">
-        <a-asset-item id="geodude" src="gltf/geodude/scene.gltf">
-        <a-asset-item id="poliwhirl"src="gltf/poliwhirl/scene.gltf">
-         
+            <a-asset-item id="geodude" src="gltf/geodude/scene.gltf">
+                <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf">
+
     </a-assets>
 
-    <a-gltf-model id="obj1" src="#bulbasaur" position="0 0 -5"></a-gltf-model>
+    <a-gltf-model id="obj1" src="#bulbasaur" position="0 0 -2" rotation="0 180 0"></a-gltf-model>
 </a-scene>
