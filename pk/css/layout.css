@@ -1,0 +1,48 @@
+#video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#scene {
+    position: fixed;
+}
+
+#point {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 999em;
+    background-color: #EF2D5E;
+    right: 50%;
+    bottom: 55%;
+}
+
+#put {
+    
+    position: fixed;
+    left: 0%;
+    bottom: 0;
+    min-width: 5%;
+    min-height: 5%;
+    background-color: transparent;
+}
+#pick {
+    position: fixed;
+    right: 0%;
+    bottom: 0;
+    min-width: 5%;
+    min-height: 5%;
+    background-color: transparent;
+}
+
+#sendForm {
+    display: none;
+    position: fixed;
+    right: 10%;
+    width: 80%;
+    
+    bottom: 20%;
+}
