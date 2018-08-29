@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Hello, WebVR! • A-Frame</title>
+  <meta name="description" content="Hello, WebVR! • A-Frame">
+  <script src="js/aframe.min.js"></script>
+  <style>
+  
+  #scene {
+    position: fixed;
+}
+#alpha{
+      position: fixed;
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene id="scene" background="color: #ECECEC">
+    <a-carema position="0 0 0" rotation="0 0 0"></a-carema>
+    <a-box id="box" position="0 0 -5" rotation="0 30 0" color="#4CC3D9" shadow></a-box>
+
+  </a-scene>
+  alpha:<span id="alpha"></span>
+</body>
+<script>
+  var carema = document.getElementById("carema");
+  window.addEventListener('deviceorientation', function (event) {
+    
+     
+     var alpha = event.alpha;
+     document.getElementById("alpha").innerHTML = Math.round(alpha);
+  }, false);
+</script>
+
+</html>
