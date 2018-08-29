@@ -1,5 +1,5 @@
 document.getElementById("arCam").innerHTML='<video id="video" autoplay></video>';
-document.getElementById("vrScene").innerHTML='<a-scene id="scene" vr-mode-ui="enabled: false"><a-camera id="camera" position="0 0 0"></a-camera><a-sphere visible="true" id="ball" position="0 2 -1" radius="0.05"></a-sphere><a-assets id="assets"></a-assets></a-scene>';
+document.getElementById("vrScene").innerHTML='<a-scene id="scene" vr-mode-ui="enabled: false"><a-camera id="camera" position="0 0 0"></a-camera><a-sphere visible="true" id="ball" position="0 0 -1" radius="0.05"></a-sphere><a-assets id="assets"></a-assets></a-scene>';
 
 //video id="video"
 //a-scene id="scene"
@@ -21,7 +21,7 @@ navigator.mediaDevices.getUserMedia(constraints)
     window.addEventListener('deviceorientation', function () {
         var camera=document.getElementById("camera");
         var x = camera.object3D.position.x, z = camera.object3D.position.z;
-        var y = 2;
+        var y = 0;
         var r_y = camera.object3D.rotation.y;// theta/180*pi   
         var r_x = camera.object3D.rotation.x;
         if (r_y == 0) {
@@ -32,11 +32,8 @@ navigator.mediaDevices.getUserMedia(constraints)
             x = x - 5 * Math.sin(r_y);
         }
         y = y + 5 * Math.sin(r_x);
-        var ball = document.querySelector('a-sphere');
-        ball.setAttribute('position', { x: x, y: y, z: z });
+        var ball = document.getElementById("ball");
+        ball.setAttribute("position", { x: x, y: y, z: z });
     });
    
-    
-
-
 
