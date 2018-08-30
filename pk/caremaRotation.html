@@ -14,6 +14,9 @@
 #alpha{
       position: fixed;
     }
+    #ca{
+      position: fixed;
+    }
   </style>
 </head>
 
@@ -25,6 +28,7 @@
 
   </a-scene>
   alpha:<span id="alpha"></span>
+  alpha:<span id="ca"></span>
 </body>
 <script>
   var carema = document.getElementById("carema");
@@ -33,6 +37,7 @@
      
      var alpha = event.alpha;
      document.getElementById("alpha").innerHTML = Math.round(alpha);
+     document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y);
   }, false);
 </script>
 
