@@ -1,0 +1,15 @@
+<script>
+    var rotationMatrix = function (x, y, theta){
+        var xp=Math.cos(theta)*x-Math.sin(theta)*y;
+        var yp=Math.sin(theta)*x+Math.cos(theta)*y;
+        return [xp,yp];
+    };
+    var alpha=0;
+   var alphaf =  function () {    
+    return window.DeviceOrientationEvent.alpha;
+
+ };
+    alpha=alphaf();
+    
+    alert(alpha);
+</script>
