@@ -1,18 +1,15 @@
+
+<button onclick="show()">button</button>
 <script>
-const sensor = new AbsoluteOrientationSensor({ frequency: 60 });
+const sensor = new AbsoluteOrientationSensor();
 const mat4 = new Float32Array(16);
 sensor.start();
 sensor.onerror = event => console.log(event.error.name, event.error.message);
 
-function draw(timestamp) {
-  window.requestAnimationFrame(draw);
-  try {
-    sensor.populateMatrix(mat4);
-  } catch(e) {
-    // mat4 has not been updated.
-  }
-  // Drawing...
+sensor.onreading = () => {
+  sensor.populateMatrix(mat4);
+};
+var show = () =>{
+    alert(mat4);
 }
-
-window.requestAnimationFrame(draw);
 </script>
