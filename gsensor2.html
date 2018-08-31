@@ -5,9 +5,9 @@ const sensor = new AbsoluteOrientationSensor();
 
 sensor.start();
 sensor.onerror = event => console.log(event.error.name, event.error.message);
-
+var o;
 sensor.onreading = () => {
-  var o=sensor.quaternion;
+  o=sensor.quaternion;
 };
 var show = () =>{
     alert(o);
