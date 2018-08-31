@@ -132,9 +132,7 @@
 
   let btn = () => {
     setPosition(3, 4, "fgg", 1);
-    setPosition(-3, 4, "fg", 3);
-    setPosition(3, -4, "f", 2);
-    setPosition(-3, -4, "fgggg", 1);
+   
   };
 
   let removeObj = () => {
@@ -142,14 +140,6 @@
     if (cursor(3, 4)) {
       scene.removeChild(document.getElementById("fgg"));
     }
-    if (cursor(-3, 4)) {
-      scene.removeChild(document.getElementById("fg"));
-    }
-    if (cursor(3, -4)) {
-      scene.removeChild(document.getElementById("f"));
-    }
-    if (cursor(-3, -4)) {
-      scene.removeChild(document.getElementById("fgggg"));
-    }
+    
   }
 </script>
