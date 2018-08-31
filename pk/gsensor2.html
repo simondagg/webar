@@ -8,6 +8,15 @@
   #sensor {
     position: fixed;
   }
+  #point {
+    position: fixed;
+    width: 1%;
+    padding-top: 1%;
+    border-radius: 999em;
+    background-color: #EF2D5E;
+    right: 49.5%;
+    bottom: 49.5%;
+}
 </style>
 
 
@@ -18,12 +27,12 @@
   <a-box position="5 0 0" rotation="0 30 0" color="#EF2D5E" shadow></a-box>
 
   <a-assets>
-      <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item>
-      <a-asset-item id="geodude" src="gltf/geodude/scene.gltf"></a-asset-item>
-      <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf"></a-asset-item>
-    </a-assets>
- 
-    
+    <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item>
+    <a-asset-item id="geodude" src="gltf/geodude/scene.gltf"></a-asset-item>
+    <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf"></a-asset-item>
+  </a-assets>
+
+
 
 </a-scene>
 
@@ -33,9 +42,11 @@
 
 
   <span id="ca"></span><br/> deltaAlpha
-  <span id="deltaAlpha"></span><br/>
-  x<span id="x"></span><br/>
-<button onclick="btn()">button</button>
+  <span id="deltaAlpha"></span><br/> x
+  <span id="x"></span><br/>
+  <button onclick="btn()">button</button>
+  <button onclick="removeObj()">button2</button>
+  <div id="point"></div>
 </div>
 
 <script>
@@ -81,22 +92,63 @@
     obj.setAttribute("id", id);
     var modname = (modClass == 1) ? "#bulbasaur" : (modClass == 2) ? "#geodude" : (modClass == 3) ? "#poliwhirl" : "#bulbasaur";
     var scale = (modClass == 1) ? "1 1 1" : (modClass == 2) ? "0.5 0.5 0.5" : (modClass == 3) ? "0.3 0.3 0.3" : "0.3 0.3 0.3";
-    
-    obj.setAttribute("gltf-model",modname);
-    obj.setAttribute("scale",scale);
 
-    document.getElementById(id).object3D.position.set(-x+camera.z, 0, y+camera.z);
+    obj.setAttribute("gltf-model", modname);
+    obj.setAttribute("scale", scale);
+
+    document.getElementById(id).object3D.position.set(-x + camera.z, 0, y + camera.z);
   };
 
-   
+
+  var getObjtheta = (x, z) => {
+    var d = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) * (-1);
+    //console.log(d);
+    var t = (x > 0) ? Math.acos(z / d) * (-1) : (x < 0) ? Math.acos(z / d) : -Math.acos(z / d) * (-1);
+    return t;
+  };
+  var cursor = function (x, z) {
+    var camera = document.getElementById("camera");
+    var r_y = camera.object3D.rotation.y;// theta/180*pi   
+    var r_x = camera.object3D.rotation.x;
+
+    var c_x = camera.object3D.position.x;
+    var c_z = camera.object3D.position.z;
 
 
+
+
+
+    deltaX = Math.pow((c_x - x));
+    deltaZ = Math.pow((c_z - z));
+
+    var xMaxTheta = Math.asin(Math.sqrt(deltaX + deltaZ + 1));
+    var yMaxTheta=getObjtheta(c_x - x+0.5,c_z - z-0.5);
+    var yMinTheta=getObjtheta(c_x - x-0.5,c_z - z+0.5);
+    [yMaxTheta,yMinTheta]=(yMaxTheta>yMinTheta)?[yMaxTheta,yMinTheta]:[yMinTheta,yMaxTheta];
+
+    return (r_x <= xMaxTheta && r_x >= 0)&&(yMaxTheta>=r_y&&yMinTheta<=r_y) 
+  }
 
   let btn = () => {
-    setPosition(3,4,"fgg",1);
-    setPosition(-3,4,"fg",3);
-    setPosition(3,-4,"f",2);
-    setPosition(-3,-4,"fgggg",1);
+    setPosition(3, 4, "fgg", 1);
+    setPosition(-3, 4, "fg", 3);
+    setPosition(3, -4, "f", 2);
+    setPosition(-3, -4, "fgggg", 1);
   };
 
+  let removeObj = () =>{
+    var scene = document.getElementById("scene");
+    if(cursor(3,4)){
+      scene.parentNode.removeChild(document.getElementById("fgg"));
+    }
+    if(cursor(-3,4)){
+      scene.parentNode.removeChild(document.getElementById("fg"));
+    }
+    if(cursor(3,-4)){
+      scene.parentNode.removeChild(document.getElementById("f"));
+    }
+    if(cursor(-3,-4)){
+      scene.parentNode.removeChild(document.getElementById("fgggg"));
+    }
+  }
 </script>
