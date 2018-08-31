@@ -121,7 +121,7 @@
     deltaX = Math.pow((c_x - x));
     deltaZ = Math.pow((c_z - z));
 
-    var xMaxTheta = Math.asin(Math.sqrt(deltaX + deltaZ + 1));
+    var xMaxTheta = Math.asin(1/Math.sqrt(deltaX + deltaZ + 1));
     var yMaxTheta=getObjtheta(c_x - x+0.5,c_z - z-0.5);
     var yMinTheta=getObjtheta(c_x - x-0.5,c_z - z+0.5);
     [yMaxTheta,yMinTheta]=(yMaxTheta>yMinTheta)?[yMaxTheta,yMinTheta]:[yMinTheta,yMaxTheta];
