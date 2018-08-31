@@ -8,6 +8,7 @@
   #sensor {
     position: fixed;
   }
+
   #point {
     position: fixed;
     width: 3%;
@@ -16,7 +17,7 @@
     background-color: #EF2D5E;
     right: 48.5%;
     bottom: 48.5%;
-}
+  }
 </style>
 
 
@@ -121,12 +122,12 @@
     deltaX = Math.pow((c_x - x));
     deltaZ = Math.pow((c_z - z));
 
-    var xMaxTheta = Math.asin(1/Math.sqrt(deltaX + deltaZ + 1));
-    var yMaxTheta=getObjtheta(c_x - x+0.5,c_z - z-0.5);
-    var yMinTheta=getObjtheta(c_x - x-0.5,c_z - z+0.5);
-    [yMaxTheta,yMinTheta]=(yMaxTheta>yMinTheta)?[yMaxTheta,yMinTheta]:[yMinTheta,yMaxTheta];
+    var xMaxTheta = Math.asin(1 / Math.sqrt(deltaX + deltaZ + 1));
+    var yMaxTheta = getObjtheta(x - c_x + 0.5, z - c_z - 0.5);
+    var yMinTheta = getObjtheta(x - c_x - 0.5, z - c_z + 0.5);
+    [yMaxTheta, yMinTheta] = (yMaxTheta > yMinTheta) ? [yMaxTheta, yMinTheta] : [yMinTheta, yMaxTheta];
 
-    return (r_x <= xMaxTheta && r_x >= 0)&&(yMaxTheta>=r_y&&yMinTheta<=r_y) 
+    return (r_x <= xMaxTheta && r_x >= 0) && (yMaxTheta >= r_y && yMinTheta <= r_y)
   }
 
   let btn = () => {
@@ -136,18 +137,18 @@
     setPosition(-3, -4, "fgggg", 1);
   };
 
-  let removeObj = () =>{
+  let removeObj = () => {
     var scene = document.getElementById("scene");
-    if(cursor(3,4)){
+    if (cursor(3, 4)) {
       scene.parentNode.removeChild(document.getElementById("fgg"));
     }
-    if(cursor(-3,4)){
+    if (cursor(-3, 4)) {
       scene.parentNode.removeChild(document.getElementById("fg"));
     }
-    if(cursor(3,-4)){
+    if (cursor(3, -4)) {
       scene.parentNode.removeChild(document.getElementById("f"));
     }
-    if(cursor(-3,-4)){
+    if (cursor(-3, -4)) {
       scene.parentNode.removeChild(document.getElementById("fgggg"));
     }
   }
