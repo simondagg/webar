@@ -15,44 +15,71 @@
 <a-scene id="scene" background="color: #ECECEC">
   <a-camera id="camera" position="0 0 0"></a-camera>
   <a-box id="box" position="0 0 -5" rotation="0 0 0" color="#4CC3D9" shadow></a-box>
-  <a-box  position="5 0 0" rotation="0 30 0" color="#EF2D5E" shadow></a-box>
+  <a-box position="5 0 0" rotation="0 30 0" color="#EF2D5E" shadow></a-box>
+
+  <a-assets>
+      <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item>
+    </a-assets>
+  
+    
 
 </a-scene>
 
 
 <div id="sensor">
-  alpha:<span id="alpha"></span><br/> beta:
+  alpha:<span id="alpha"></span><br/> beta: alpha:
 
-  
-  alpha:<span id="ca"></span><br/>
-  deltaAlpha<span id="deltaAlpha"></span><br/>
 
-  </div>
+  <span id="ca"></span><br/> deltaAlpha
+  <span id="deltaAlpha"></span><br/>
+<button onclick="btn()">button</button>
+</div>
 
 <script>
   const sensor = new AbsoluteOrientationSensor();
   sensor.start();
   sensor.onerror = event => console.log(event.error.name, event.error.message);
-  var  deltaAlpha =0;
+
+  var deltaAlpha = 0;
   sensor.onreading = () => {
     var o = sensor.quaternion;
-    
+
     var alpha = quaternionToEulerAngleX(o[0], o[1], o[2], o[3]);
-    document.getElementById("alpha").innerHTML = Math.round(alpha/Math.PI*180);
+    document.getElementById("alpha").innerHTML = Math.round(alpha / Math.PI * 180);
 
 
 
-    var camera =document.getElementById("camera");
-    document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y/Math.PI*180);
-    deltaAlpha=camera.object3D.rotation.y-alpha;
-    document.getElementById("deltaAlpha").innerHTML = Math.round(deltaAlpha/Math.PI*180);
+    var camera = document.getElementById("camera");
+    document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y / Math.PI * 180);
+    deltaAlpha = camera.object3D.rotation.y - alpha;
+    document.getElementById("deltaAlpha").innerHTML = Math.round(deltaAlpha / Math.PI * 180);
 
   };
-  function quaternionToEulerAngleX(w, x, y, z) {
+
+  var quaternionToEulerAngleX = (w, x, y, z) => {
     t0 = 2.0 * (w * x + y * z);
     t1 = 1.0 - 2.0 * (x * x + y * y);
     X = Math.atan2(t0, t1);
-    
+
     return X;
   }
+
+  let rotationMatrix = (x, y, theta) => {
+    return [Math.cos(theta) * x - Math.sin(theta) * y, Math.sin(theta) * x + Math.cos(theta) * y];
+  };
+
+  let setPosition = (x, y, id, modClass) => {
+    var scene = document.getElementById("scene");
+    var arPosition = rotationMatrix(x, y, deltaAlpha);
+    var obj = document.createElement("a-entity");
+    scene.appendChild(obj);
+    obj.setAttribute("id", id);
+    var modname = (id == 1) ? "#bulbasaur" : (id == 2) ? "#geodude" : (id == 3) ? "#poliwhirl" : "#bulbasaur";
+    obj.setAttribute("gltf-model", modname);
+
+    document.getElementById(id).object3D.position.set(x, 0, y);
+  };
+
+  let btn = () => {setPosition(3,4,"fgg",1);};
+
 </script>
