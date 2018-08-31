@@ -1,0 +1,17 @@
+<div id="x"></div>
+<div id="y"></div>
+<div id="z"></div>
+
+
+<script>
+let sensor = new Gyroscope();
+sensor.start();
+
+sensor.onreading = () => {
+    
+    document.getElementById("x").innerHTML = Math.round(sensor.x/Math.PI*180);
+    document.getElementById("y").innerHTML = Math.round(sensor.y/Math.PI*180);
+    document.getElementById("z").innerHTML = Math.round(sensor.z/Math.PI*180);
+};
+sensor.onerror = event => console.log(event.error.name, event.error.message);
+</script>
