@@ -97,7 +97,7 @@
     obj.setAttribute("gltf-model", modname);
     obj.setAttribute("scale", scale);
 
-    document.getElementById(id).object3D.position.set(-x + camera.z, 0, y + camera.z);
+    document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
   };
 
 
@@ -119,8 +119,8 @@
 
 
 
-    deltaX = Math.pow((c_x - x));
-    deltaZ = Math.pow((c_z - z));
+    deltaX = Math.pow((c_x - x),2);
+    deltaZ = Math.pow((c_z - z),2);
 
     var xMaxTheta = Math.asin(1 / Math.sqrt(deltaX + deltaZ + 1));
     var yMaxTheta = getObjtheta(x - c_x + 0.5, z - c_z - 0.5);
@@ -140,16 +140,16 @@
   let removeObj = () => {
     var scene = document.getElementById("scene");
     if (cursor(3, 4)) {
-      scene.parentNode.removeChild(document.getElementById("fgg"));
+      scene.removeChild(document.getElementById("fgg"));
     }
     if (cursor(-3, 4)) {
-      scene.parentNode.removeChild(document.getElementById("fg"));
+      scene.removeChild(document.getElementById("fg"));
     }
     if (cursor(3, -4)) {
-      scene.parentNode.removeChild(document.getElementById("f"));
+      scene.removeChild(document.getElementById("f"));
     }
     if (cursor(-3, -4)) {
-      scene.parentNode.removeChild(document.getElementById("fgggg"));
+      scene.removeChild(document.getElementById("fgggg"));
     }
   }
 </script>
