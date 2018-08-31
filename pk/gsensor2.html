@@ -20,7 +20,7 @@
   <a-assets>
       <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item>
     </a-assets>
-  
+ 
     
 
 </a-scene>
@@ -77,8 +77,12 @@
     var modname = (id == 1) ? "#bulbasaur" : (id == 2) ? "#geodude" : (id == 3) ? "#poliwhirl" : "#bulbasaur";
     obj.setAttribute("gltf-model", modname);
 
-    document.getElementById(id).object3D.position.set(x, 0, y);
+    document.getElementById(id).object3D.position.set(-x, 0, y);
   };
+
+   
+
+
 
   let btn = () => {setPosition(3,4,"fgg",1);};
 
