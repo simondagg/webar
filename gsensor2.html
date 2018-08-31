@@ -1,15 +1,18 @@
-
-<button onclick="show()">button</button>
+X:<span id="x"></span><br/>
+Y:<span id="y"></span><br/>
+Z:<span id="z"></span><br/>
+W:<span id="w"></span><br/>
 <script>
 const sensor = new AbsoluteOrientationSensor();
-
 sensor.start();
 sensor.onerror = event => console.log(event.error.name, event.error.message);
-var o;
+
 sensor.onreading = () => {
-  o=sensor.quaternion;
+  var  o=sensor.quaternion;
+  document.getElementById("x").innerHTML=o[0];
+  document.getElementById("y").innerHTML=o[1];
+  document.getElementById("z").innerHTML=o[2];
+  document.getElementById("w").innerHTML=o[3];
 };
-var show = () =>{
-    alert(o);
-}
+
 </script>
