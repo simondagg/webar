@@ -19,6 +19,8 @@
 
   <a-assets>
       <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item>
+      <a-asset-item id="geodude" src="gltf/geodude/scene.gltf"></a-asset-item>
+      <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf"></a-asset-item>
     </a-assets>
  
     
@@ -69,21 +71,30 @@
   };
 
   let setPosition = (x, y, id, modClass) => {
+    var camera = document.getElementById("camera").object3D.position;
     var scene = document.getElementById("scene");
     var arPosition = rotationMatrix(x, y, deltaAlpha);
     var obj = document.createElement("a-entity");
     scene.appendChild(obj);
     obj.setAttribute("id", id);
-    var modname = (id == 1) ? "#bulbasaur" : (id == 2) ? "#geodude" : (id == 3) ? "#poliwhirl" : "#bulbasaur";
-    obj.setAttribute("gltf-model", modname);
+    var modname = (modClass == 1) ? "#bulbasaur" : (modClass == 2) ? "#geodude" : (modClass == 3) ? "#poliwhirl" : "#bulbasaur";
+    var scale = (modClass == 1) ? "1 1 1" : (modClass == 2) ? "0.5 0.5 0.5" : (modClass == 3) ? "0.3 0.3 0.3" : "0.3 0.3 0.3";
+    
+    obj.setAttribute("gltf-model",modname);
+    obj.setAttribute("scale",scale);
 
-    document.getElementById(id).object3D.position.set(-x, 0, y);
+    document.getElementById(id).object3D.position.set(-x+camera.z, 0, y+camera.z);
   };
 
    
 
 
 
-  let btn = () => {setPosition(3,4,"fgg",1);};
+  let btn = () => {
+    setPosition(3,4,"fgg",1);
+    setPosition(-3,4,"fg",3);
+    setPosition(3,-4,"f",2);
+    setPosition(-3,-4,"fgggg",1);
+  };
 
 </script>
