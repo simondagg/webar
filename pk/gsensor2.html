@@ -136,7 +136,7 @@
   };
 
   let removeObj = () => {
-    var arPosition = rotationMatrix(3, 4, -deltaAlpha);
+    var arPosition = rotationMatrix(3, 4,deltaAlpha);
     var scene = document.getElementById("scene");
     if (cursor(-arPosition[0],arPosition[1])) {
       scene.removeChild(document.getElementById("fgg"));
