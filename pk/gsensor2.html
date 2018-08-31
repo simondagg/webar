@@ -22,47 +22,37 @@
 
 <div id="sensor">
   alpha:<span id="alpha"></span><br/> beta:
-  <span id="beta"></span><br/> gamma:
-  <span id="gamma"></span><br/>
+
   
   alpha:<span id="ca"></span><br/>
-  beta:<span id="cb"></span><br/>
-  gamma:<span id="cg"></span><br/>
+  deltaAlpha<span id="deltaAlpha"></span><br/>
+
   </div>
 
 <script>
   const sensor = new AbsoluteOrientationSensor();
   sensor.start();
   sensor.onerror = event => console.log(event.error.name, event.error.message);
+  var  deltaAlpha =0;
   sensor.onreading = () => {
     var o = sensor.quaternion;
     
-    var ola = quaternionToEulerAngle(o[0], o[1], o[2], o[3]);
-    document.getElementById("alpha").innerHTML = Math.round(ola[0] / Math.PI * 180);
-    document.getElementById("gamma").innerHTML = Math.round(ola[1] / Math.PI * 180);
-    document.getElementById("beta").innerHTML = Math.round(ola[2] / Math.PI * 180);
+    var alpha = quaternionToEulerAngleX(o[0], o[1], o[2], o[3]);
+    document.getElementById("alpha").innerHTML = Math.round(alpha/Math.PI*180);
+
 
 
     var camera =document.getElementById("camera");
     document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y/Math.PI*180);
-     document.getElementById("cb").innerHTML = Math.round(camera.object3D.rotation.x/Math.PI*180);
-     document.getElementById("cg").innerHTML = Math.round(camera.object3D.rotation.z/Math.PI*180);
+    deltaAlpha=camera.object3D.rotation.y-alpha;
+    document.getElementById("deltaAlpha").innerHTML = Math.round(deltaAlpha/Math.PI*180);
 
   };
-  function quaternionToEulerAngle(w, x, y, z) {
+  function quaternionToEulerAngleX(w, x, y, z) {
     t0 = 2.0 * (w * x + y * z);
     t1 = 1.0 - 2.0 * (x * x + y * y);
     X = Math.atan2(t0, t1);
-    t2 = 2.0 * (w * y - z * x);
-    if (t2 > 1.0) {
-      t2 = 1.0;
-    } else if (t2 < -1.0) {
-      t2 = -1.0;
-    }
-    Y = Math.asin(t2);
-    t3 = 2.0 * (w * z + x * y);
-    t4 = 1.0 - 2.0 * (y * y + z * z);
-    Z = Math.atan2(t3, t4);
-    return [X, Y, Z];
+    
+    return X;
   }
 </script>
