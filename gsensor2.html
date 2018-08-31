@@ -2,6 +2,9 @@ X:<span id="x"></span><br/>
 Y:<span id="y"></span><br/>
 Z:<span id="z"></span><br/>
 W:<span id="w"></span><br/>
+alpha:<span id="alpha"></span><br/>
+beta:<span id="beta"></span><br/>
+gamma:<span id="gamma"></span><br/>
 <script>
 const sensor = new AbsoluteOrientationSensor();
 sensor.start();
@@ -13,6 +16,32 @@ sensor.onreading = () => {
   document.getElementById("y").innerHTML=o[1];
   document.getElementById("z").innerHTML=o[2];
   document.getElementById("w").innerHTML=o[3];
-};
 
+  var ola=quaternionToEulerAngle(o[0], o[1], o[2], o[3]);
+
+  document.getElementById("alpha").innerHTML = Math.round(ola[0]/Math.PI*180);
+  document.getElementById("beta").innerHTML = Math.round(ola[1]/Math.PI*180);
+  document.getElementById("gamma").innerHTML = Math.round(ola[2]/Math.PI*180);
+
+};
+function quaternionToEulerAngle(w, x, y, z) {
+
+t0 = 2.0 * (w * x + y * z);
+t1 = 1.0 - 2.0 * (x * x + y * y);
+X = Math.atan2(t0, t1);
+
+t2 = 2.0 * (w * y - z * x);
+if(t2 > 1.0) {
+  t2 = 1.0;
+} else if(t2 < -1.0){
+  t2 = -1.0;
+}
+Y = Math.asin(t2);
+
+t3 = 2.0 * (w * z + x * y);
+t4 = 1.0 - 2.0 * (y * y + z * z);
+Z = Math.atan2(t3, t4);
+
+return X, Y, Z
+}
 </script>
