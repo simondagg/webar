@@ -4,12 +4,14 @@
         var yp=Math.sin(theta)*x+Math.cos(theta)*y;
         return [xp,yp];
     };
-    var alpha=0;
-   var alphaf =  function () {    
-    return window.DeviceOrientationEvent.alpha;
+    var deltAlpha =function(event){
+        document.getElementById("carema").object3D.rotation.y
+    };
 
- };
-    alpha=alphaf();
-    
-    alert(alpha);
+
+    if (window.DeviceMotionEvent) {
+     window.addEventListener("devicemotion", deltAlpha);
+  }else{
+      alert()
+  }
 </script>

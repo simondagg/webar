@@ -12,12 +12,12 @@
 
 #point {
     position: fixed;
-    width: 10px;
-    height: 10px;
+    width: 3%;
+    padding-top: 3%;
     border-radius: 999em;
     background-color: #EF2D5E;
-    right: 50%;
-    bottom: 55%;
+    right: 48.5%;
+    bottom: 48.5%;
 }
 
 #put {

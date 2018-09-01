@@ -1,0 +1,11 @@
+<script>
+ 
+
+    var getObjtheta = (x, z) => {
+        var d = Math.sqrt(Math.pow(x,2) + Math.pow(z,2))*(-1);
+        //console.log(d);
+        var t = (x>0)?Math.acos(z/d)*(-1):(x<0)?Math.acos(z/d):-Math.acos(z/d)*(-1);
+        return t;
+    };
+
+</script>

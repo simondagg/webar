@@ -1,0 +1,24 @@
+<script>
+function quaternionToEulerAngle(w, x, y, z) {
+
+t0 = 2.0 * (w * x + y * z);
+t1 = 1.0 - 2.0 * (x * x + y * y);
+X = Math.atan2(t0, t1);
+
+t2 = 2.0 * (w * y - z * x);
+if(t2 > 1.0) {
+  t2 = 1.0;
+} else if(t2 < -1.0){
+  t2 = -1.0;
+}
+Y = Math.asin(t2);
+
+t3 = 2.0 * (w * z + x * y);
+t4 = 1.0 - 2.0 * (y * y + z * z);
+Z = Math.atan2(t3, t4);
+
+return [X, Y, Z];
+}
+
+console.log(quaternionToEulerAngle(1,1,1,1));
+</script>

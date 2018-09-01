@@ -87,7 +87,7 @@
   let setPosition = (x, y, id, modClass) => {
     var camera = document.getElementById("camera").object3D.position;
     var scene = document.getElementById("scene");
-    var arPosition = rotationMatrix(x, y, deltaAlpha);
+    var arPosition = rotationMatrix(x, y, -0.75049157835);
     var obj = document.createElement("a-entity");
     scene.appendChild(obj);
     obj.setAttribute("id", id);
@@ -108,25 +108,27 @@
     return t;
   };
   var cursor = function (x, z) {
-    var camera = document.getElementById("camera");
-    var r_y = camera.object3D.rotation.y;// theta/180*pi   
-    var r_x = camera.object3D.rotation.x;
+    
+    var r_y = 1.72787595947;// theta/180*pi   
+    var r_x = 0.0698131701;
 
-    var c_x = camera.object3D.position.x;
-    var c_z = camera.object3D.position.z;
-
-
+    var c_x = 0;
+    var c_z = 0;
 
 
 
-    deltaX = Math.pow((c_x - x),2);
-    deltaZ = Math.pow((c_z - z),2);
+
+
+    var deltaX = Math.pow((c_x - x),2);
+    var deltaZ = Math.pow((c_z - z),2);
 
     var xMaxTheta = Math.asin(1 / Math.sqrt(deltaX + deltaZ + 1));
     var yMaxTheta = getObjtheta(x - c_x + 0.5, z - c_z - 0.5);
     var yMinTheta = getObjtheta(x - c_x - 0.5, z - c_z + 0.5);
     [yMaxTheta, yMinTheta] = (yMaxTheta > yMinTheta) ? [yMaxTheta, yMinTheta] : [yMinTheta, yMaxTheta];
-
+    console.log(xMaxTheta/ Math.PI * 180);
+    console.log(yMaxTheta/ Math.PI * 180);
+    console.log(yMinTheta/ Math.PI * 180);
     return (r_x <= xMaxTheta && r_x >= 0) && (yMaxTheta >= r_y && yMinTheta <= r_y)
   }
 
@@ -134,23 +136,12 @@
     setPosition(3, 4, "fgg", 1);
     setPosition(-3, 4, "fg", 3);
     setPosition(3, -4, "f", 2);
-    setPosition(-3, -4, "fgggg", 1);
+    
   };
 
   let removeObj = () => {
-    var arPosition = rotationMatrix(3, 4, deltaAlpha);
     var scene = document.getElementById("scene");
-    if (cursor(-arPosition[0],arPosition[1])) {
-      scene.removeChild(document.getElementById("fgg"));
-    }
-    if (cursor(-3, 4)) {
-      scene.removeChild(document.getElementById("fg"));
-    }
-    if (cursor(3, -4)) {
-      scene.removeChild(document.getElementById("f"));
-    }
-    if (cursor(-3, -4)) {
-      scene.removeChild(document.getElementById("fgggg"));
-    }
+    (cursor(-4.922054545100856,0.8794197263264056))?scene.removeChild(document.getElementById("fgg")):doNothing();
+   
   }
 </script>

@@ -1,0 +1,41 @@
+alpha:<span id="alpha"></span><br/> beta:
+<span id="beta"></span><br/> gamma:
+<span id="gamma"></span><br/>
+
+
+<script>
+    const options = { frequency: 50 };
+
+    const accl = new Accelerometer(options);
+    const gyro = new Gyroscope(options);
+
+    let timestamp = null;
+    let alpha = beta = gamma = 0;
+    const bias = 0.98;
+
+    gyro.onreading = () => {
+        let dt = timestamp ? (gyro.timestamp - timestamp) / 1000 : 0;
+        timestamp = gyro.timestamp;
+
+        // Treat the acceleration vector as an orientation vector by normalizing it.
+        // Keep in mind that the if the device is flipped, the vector will just be
+        // pointing in the other direction, so we have no way to know from the
+        // accelerometer data which way the device is oriented.
+        const norm = Math.sqrt(accl.x ** 2 + accl.y ** 2 + accl.z ** 2);
+
+        // As we only can cover half (PI rad) of the full spectrum (2*PI rad) we multiply
+        // the unit vector with values from [-1, 1] with PI/2, covering [-PI/2, PI/2].
+        const scale = Math.PI / 2;
+
+        alpha = alpha + gyro.z * dt;
+        beta = bias * (beta + gyro.x * dt) + (1.0 - bias) * (accl.x * scale / norm);
+        gamma = bias * (gamma + gyro.y * dt) + (1.0 - bias) * (accl.y * -scale / norm);
+        document.getElementById("alpha").innerHTML = Math.round(alpha/Math.PI*180);
+        document.getElementById("beta").innerHTML = Math.round(beta/Math.PI*180);
+        document.getElementById("gamma").innerHTML = Math.round(gamma/Math.PI*180);
+        // Do something with Euler angles (alpha, beta, gamma).
+    };
+
+    accl.start();
+    gyro.start();
+</script>

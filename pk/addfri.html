@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css" href="Semantic-UI-CSS-master/semantic.min.css">
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+<script src="Semantic-UI-CSS-master/semantic.min.js"></script>
+<style>
+#add_fri {
+    position: fixed;
+    right: 10%;
+    width: 80%;
+    
+    bottom: 20%;
+}
+
+</style>
+<div  id="add_fri">
+
+        <div class="ui message">
+            <i class="close icon" onclick=""></i>
+            <div class="header" style="font-family:'微軟正黑體'; font-size:150%">
+                大寶
+                <i class="female icon" style="color:rgb(252, 150, 201)"></i>
+            </div>
+            <br>
+            <p>興趣 :</P>
+            <h5>爬山/遛狗/衝浪</h5>
+            <p>想說的話 :</P>
+            <h5>好想要玩拖曳傘~~</h5>
+            <br>
+            <!--此物件id需要在創建物件時就要給他嵌入 此為直接填入-->
+            <div id="AKQAAZSYRAKFPQSY" class="extra content">
+
+                <button class="ui basic button like addfriend" onclick="object_addfriend(otherUserId)">
+                    <i class="like icon"></i>
+                    加好友
+                </button>
+                <button class="ui basic button bullhorn report addfriend" onclick="object_report(this.parentNode.id)">
+                    <i class="bullhorn icon"></i>
+                    檢舉
+                </button>
+            </div>
+
+        </div>
+
+    </div>

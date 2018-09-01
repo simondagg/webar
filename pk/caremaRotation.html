@@ -3,42 +3,57 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Hello, WebVR! • A-Frame</title>
-  <meta name="description" content="Hello, WebVR! • A-Frame">
+
   <script src="js/aframe.min.js"></script>
   <style>
   
   #scene {
     position: fixed;
 }
-#alpha{
-      position: fixed;
-    }
-    #ca{
-      position: fixed;
-    }
+#sensor{
+  position: fixed;
+}
+
   </style>
 </head>
 
 <body>
   <a-scene id="scene" background="color: #ECECEC">
-    <a-camera id="camera" position="0 0 0" rotation="0 0 0"></a-carema>
-    <a-box id="box" position="0 0 -5" rotation="0 30 0" color="#4CC3D9" shadow></a-box>
-    <a-box  position="5 0 0" rotation="0 30 0" color="#EF2D5E"" shadow></a-box>
+    <a-camera id="camera" position="0 0 0"></a-camera>
+    <a-box id="box" position="0 0 -5" rotation="0 0 0" color="#4CC3D9" shadow></a-box>
+    <a-box  position="5 0 0" rotation="0 30 0" color="#EF2D5E" shadow></a-box>
 
   </a-scene>
-  alpha:<span id="alpha"></span>
-  alpha:<span id="ca"></span>
+ <div id="sensor">
+  alpha:<span id="alpha"></span><br/>
+  beta:<span id="beta"></span><br/>
+  gamma:<span id="gamma"></span><br/>
+  alpha:<span id="ca"></span><br/>
+  beta:<span id="cb"></span><br/>
+  gamma:<span id="cg"></span><br/>
+ </div>
+ 
 </body>
 <script>
-  
-  window.addEventListener('deviceorientation', function (event) {
+  let Deg2Rad = function (Deg) {
+    return (Math.PI * Deg / 180.0);
+    }
+  window.addEventListener('deviceorientationabsolute', function (event) {
     
-     var camera = document.getElementById("camera");
+     
      var alpha = event.alpha;
-     document.getElementById("alpha").innerHTML = Math.round(alpha);
-     document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y);
-  }, false);
+     var beta =event.beta;
+     var gamma= event.gamma;
+     var camera =document.getElementById("camera");
+     document.getElementById("alpha").innerHTML = Math.round(alpha-180);
+     document.getElementById("beta").innerHTML = Math.round(beta-90);
+     document.getElementById("gamma").innerHTML = Math.round(gamma);
+     document.getElementById("ca").innerHTML = Math.round(camera.object3D.rotation.y/Math.PI*180);
+     document.getElementById("cb").innerHTML = Math.round(camera.object3D.rotation.x/Math.PI*180);
+     document.getElementById("cg").innerHTML = Math.round(camera.object3D.rotation.z/Math.PI*180);
+  },  true);
+
+
 </script>
 
 </html>
