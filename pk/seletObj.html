@@ -41,25 +41,25 @@
     var datax = [];
     var datay = [];
 
-    
 
-    var _init_ = () => {
+
+    var init = () => {
         datax = [];
         datay = [];
-        deletDataArray(dataArrayy);
-        var deltaAlpha = document.getElementById("deltaAlpha");
+        //deletDataArray(dataArrayy);
+        var deltaAlpha = document.getElementById("deltaAlpha").value;
         deltaAlpharam = deltaAlpha;
         setCamera("camera", deltaAlpharam);
 
         dataArrayy = updataObj(dataArrayy);//刷新物件列
         arrayCreateObj(dataArrayy);//新增物件
 
-    }
+    };
     var setCamera = (id, deltaAlpha) => {
         var lon = document.getElementById("lon").value;
         var lat = document.getElementById("lat").value;
         var XY = gcs2Gauss(lon, lat);
-        var arPosition = rotationMatrix(XY[0],XY[1], deltaAlpha);
+        var arPosition = rotationMatrix(XY[0], XY[1], deltaAlpha);
 
         document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
     };
@@ -73,24 +73,29 @@
         var arPosition = rotationMatrix(x, y, deltaAlpha);
 
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
-    }
+    };
 
     var arrayCreateObj = (dataArray) => {
-        for (var i; i < dataArray.length; i++) {
+        for (var i = 0; i < dataArray.length; i++) {
             setPosition(dataArray[i].x, dataArray[i].y, dataArray[i].objid, dataArray[i].module, deltaAlpharam);
         }
-    }
+    };
     var deletDataArray = (dataArray) => {
-        for (var i; i < dataArray.length; i++) {
+        for (var i = 0; i < dataArray.length; i++) {
             deletAnyObj(dataArray[i].objid);
         }
 
-    }
+    };
 
     var deletAnyObj = (id) => {
-        var scene = document.getElementById("scene");
-        scene.removeChild(document.getElementById(id));
-    }
+        try {
+            var scene = document.getElementById("scene");
+            scene.removeChild(document.getElementById(id));
+        } catch (e) {
+            console.log("i dont know what happen");
+        }
+
+    };
     let setPosition = (x, y, id, modClass, deltaAlpha) => {//obj
         var camera = document.getElementById("camera").object3D.position;
         var scene = document.getElementById("scene");
@@ -108,7 +113,7 @@
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
     };
     var objCursorEvent = () => {
-        for (var i; i < dataArrayy.length; i++) {
+        for (var i = 0; i < dataArrayy.length; i++) {
             (cursor(datax[i], datay[i])) ? showObjImfo(dataArrayy[i]) : doNothing();
         }
     }
@@ -117,14 +122,14 @@
         addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<h5>' + objImfo.content + '</h5>';
         addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button class="ui basic button like addfriend" onclick="object_addfriend(objImfo.user)"> <i class="like icon"></i> 加好友 </button> <button class="ui basic button bullhorn report addfriend" onclick="object_report(objImfo.objid)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
         document.getElementById("addFriForm").innerHTML = addfri;
-    }
+    };
 
-    var deletAddFriForm = () =>{
+    var deletAddFriForm = () => {
         var addFriForm = document.getElementById("addFriForm");
         addFriForm.removeChild(document.getElementById("add_fri"));
-    }
+    };
 
-       
+    init();
 
-    _init_();
+    setTimeout(init(),10000);
 </script>
