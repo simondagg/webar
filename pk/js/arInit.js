@@ -20,7 +20,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 /////////////////////////////////////////////////////////////////////////////
 const sensor = new AbsoluteOrientationSensor();
 sensor.start();
-sensor.onerror = event => console.log(event.error.name, event.error.message);
+sensor.onerror = event => alert(event.error.name, event.error.message);
 
 var deltaAlpha = 0;
 sensor.onreading = () => {
