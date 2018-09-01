@@ -5,8 +5,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="Semantic-UI-CSS-master/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="Semantic-UI-CSS-master/semantic.css">
-    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
     <script src="Semantic-UI-CSS-master/semantic.min.js"></script>
@@ -14,16 +13,26 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/layout.css">
-    <script src="js/noneNblock.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-orientation.min.js"></script>
 
     <style>
+        #video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
         #scene {
             position: fixed;
+            display: block;
         }
+
 
         #ad {
             position: fixed;
@@ -40,21 +49,18 @@
 </head>
 
 
-<a-scene id="scene" vr-mode-ui="enabled: false">
-    <a-camera id="camera"></a-camera>
-    <a-assets id="assets">
 
-    </a-assets>
-
-</a-scene>
-
-
-
+    
 <div id="lat" value=0></div>
 <div id="lon" value=0></div>
+<div id="deltaAlpha" value=0></div>
+<div id="arCam"></div>
+<div id="vrScene"></div>
+
+
 <div id="ad">
     <div class="ui message" style="font-family:微軟正黑體">
-        <i class="close icon" onclick=""></i>
+        <i class="close icon" onclick='noneById("ad")'></i>
         <div class="header" style="font-family:微軟正黑體 ; font-size:150%"> 你希望留下甚麼資訊?
         </div>
         <br>
@@ -91,9 +97,11 @@
 
 </body>
 
-<script src="js/fbInit.js"></script>
 <script src="js/getGPS.js"></script>
 <script src="js/gcs2Gauss.js"></script>
+<script src="js/arInit.js"></script>
+<script src="js/fbInit.js"></script>
+<script src="js/noneNblock.js"></script>
 <script>
 
     var userID = "FDZQcGP1RjbfLACovlORVyYRXMJ2";
@@ -188,7 +196,7 @@
                 // 上傳成功
                 uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
 
-                    document.getElementById("result").innerHTML = downloadURL;
+                    //document.getElementById("result").innerHTML = downloadURL;
 
                     var lat = document.getElementById("lat").value;
                     var lon = document.getElementById("lon").value;
@@ -196,6 +204,7 @@
                         alert("GPS錯誤");
                     }
                     var XY = gcs2Gauss(lon, lat);
+                    var ad_id=randomWord(false,10);
                     var ad_object = new Array(ad_title, ad_content, downloadURL, ad_id, lat, lon);
                     let oid = randomWord(false, 16);
                     firebase.database().ref('AdObject/' + oid).set({
