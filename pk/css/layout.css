@@ -38,6 +38,14 @@
     background-color: transparent;
 }
 
+#updata{
+    position: fixed;
+    right: 42%;
+    bottom: 0;
+    width: 16%;
+    min-height: 5%;
+    background-color: transparent;
+}
 #sendForm {
     display: none;
     position: fixed;
