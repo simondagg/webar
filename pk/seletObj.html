@@ -125,7 +125,7 @@
     var showObjImfo = (objImfo) => {
         var addfri = '<div id="add_fri"> <div class="ui message"> <i class="close icon" onclick="deletAddFriForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> 大寶 <i class="female icon" style="color:rgb(252, 150, 201)"></i> </div> <br> </div>';
         addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<h5>' + objImfo.content + '</h5>';
-        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button class="ui basic button like addfriend" onclick="object_addfriend(objImfo.user)"> <i class="like icon"></i> 加好友 </button> <button class="ui basic button bullhorn report addfriend" onclick="object_report(objImfo.objid)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button class="ui basic button like addfriend" onclick="object_addfriend('+objImfo.user+')"> <i class="like icon"></i> 加好友 </button> <button class="ui basic button bullhorn report addfriend" onclick="object_report('+objImfo.objid+')"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
         document.getElementById("addFriForm").innerHTML = addfri;
     };
 
