@@ -13,7 +13,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/layout.css">
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
@@ -33,8 +33,36 @@
             display: block;
         }
 
+        #put {
+
+            position: fixed;
+            left: 0%;
+            bottom: 0;
+            min-width: 5%;
+            min-height: 5%;
+            background-color: transparent;
+        }
+
+        #pick {
+            position: fixed;
+            right: 0%;
+            bottom: 0;
+            min-width: 5%;
+            min-height: 5%;
+            background-color: transparent;
+        }
 
         #ad {
+            display: none;
+            position: fixed;
+            right: 10%;
+
+            width: 80%;
+            bottom: 10%;
+
+        }
+        #wtf {
+            display: none;
             position: fixed;
             right: 10%;
 
@@ -50,12 +78,71 @@
 
 
 
-    
+
 <div id="lat" value=0></div>
 <div id="lon" value=0></div>
 <div id="deltaAlpha" value=0></div>
 <div id="arCam"></div>
 <div id="vrScene"></div>
+<button type="button" onclick='blockById("ad")' id="put">
+    <img src="img/billboard.png">
+</button>
+<button type="button" onclick='blockById("wtf")' id="pick">
+    <img src="img/discount.png">
+</button>
+
+<div id="currentObject"></div>
+    <div id="currentUser"></div>
+    <div id="bug"></div>
+
+    <div id="wtf" class="coupon" style="font-family:微軟正黑體">
+        <div class="ui message" style="font-family:微軟正黑體">
+            <i class="close icon" onclick='noneById("wtf")'></i>
+            <div class="header" style="font-family:微軟正黑體 ; font-size:150%"> 優惠券資訊
+            </div>
+            <br>
+            <form class="ui form" name="reg">
+                標題：
+                <input class="ui input" id="coupon_title" name="coupon_title" type="text" placeholder="請輸入10字以內" required maxlength="10"
+                />
+                <br/> 內容：
+                <input class="ui input" id="coupon_content" name="coupon_content" type="text" placeholder="請輸入30字以內" />
+                <br/> 行政區：
+                <div class="field" style="font-family:微軟正黑體 ;">
+                    <select class="ui fluid dropdown"  style="font-family:微軟正黑體;">
+                        <option value="">請選擇行政區</option>
+                        <option value="1">臺北市</option>
+                        <option value="2">新北市</option>
+                        <option value="3">基隆市</option>
+                        <option value="4">桃園市</option>
+                        <option value="5">新竹縣</option>
+                        <option value="6">新竹市</option>
+                        <option value="7">苗栗縣</option>
+                        <option value="8">臺中市</option>
+                        <option value="9">南投縣</option>
+                        <option value="10">彰化縣</option>
+                        <option value="11">雲林縣</option>
+                        <option value="12">嘉義縣</option>
+                        <option value="13">嘉義市</option>
+                        <option value="14">臺南市</option>
+                        <option value="15">高雄市</option>
+                        <option value="16">屏東縣</option>
+                        <option value="17">宜蘭縣</option>
+                        <option value="18">花蓮縣</option>
+                        <option value="19">臺東縣</option>
+                        <option value="20">澎湖縣</option>
+                        <option value="21">金門縣</option>
+                        <option value="23">連江縣</option>
+                    </select>
+                </div>
+                <br>
+                <button class="ui primary button" id="coupon_OK" onclick="createCoupon()">確定</button>
+                <button class="ui basic button"  onclick='noneById("wtf")' id="coupon_cancel">取消</button>
+
+            </form>
+
+        </div>
+    </div>
 
 
 <div id="ad">
@@ -104,7 +191,7 @@
 <script src="js/noneNblock.js"></script>
 <script>
 
-    
+    var userID = "FDZQcGP1RjbfLACovlORVyYRXMJ2";
 
 
 
@@ -204,7 +291,7 @@
                         alert("GPS錯誤");
                     }
                     var XY = gcs2Gauss(lon, lat);
-                    var ad_id=randomWord(false,10);
+                    var ad_id = randomWord(false, 10);
                     var ad_object = new Array(ad_title, ad_content, downloadURL, ad_id, lat, lon);
                     let oid = randomWord(false, 16);
                     firebase.database().ref('AdObject/' + oid).set({
@@ -221,10 +308,26 @@
 
                     });
                     alert("創建成功");
+                    document.getElementById(id).style.display = 'none';
                 });
             });
     };
+    function createCoupon() {
 
+var coupon_id = randomWord(false,16);
+var coupon_title = document.getElementById("coupon_title").value;
+var coupon_content = document.getElementById("coupon_content").value;
+
+//選擇行政區
+//var coupon_district = document.getElementById("coupon_district").value;
+
+
+
+var coupon = new Array(coupon_title, coupon_content, coupon_id, coupon_district);
+//var coupon = new Array(coupon_title,coupon_content,coupon_id);
+window.ExtObj_createCoupon.responseResult(coupon);
+noneById("wtf");
+}
     var btn = () => {
         gltf_img = img_base64_mirror;
         gltf_bin = "https://simondagg.github.io/webar/gltf_test/simple/scene.bin";
