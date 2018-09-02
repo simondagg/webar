@@ -61,6 +61,7 @@
             bottom: 10%;
 
         }
+
         #wtf {
             display: none;
             position: fixed;
@@ -92,62 +93,62 @@
 </button>
 
 <div id="currentObject"></div>
-    <div id="currentUser"></div>
-    <div id="bug"></div>
+<div id="currentUser"></div>
+<div id="bug"></div>
 
-    <div id="wtf" class="coupon" style="font-family:微軟正黑體">
-        <div class="ui message" style="font-family:微軟正黑體">
-            <i class="close icon" onclick='noneById("wtf")'></i>
-            <div class="header" style="font-family:微軟正黑體 ; font-size:150%"> 優惠券資訊
+<div id="wtf" class="coupon" style="font-family:微軟正黑體">
+    <div class="ui message" style="font-family:微軟正黑體">
+        <i class="close icon" onclick="closeAllIcon()"></i>
+        <div class="header" style="font-family:微軟正黑體 ; font-size:150%"> 優惠券資訊
+        </div>
+        <br>
+        <form class="ui form" name="reg">
+            標題：
+            <input class="ui input" id="coupon_title" name="coupon_title" type="text" placeholder="請輸入10字以內" required maxlength="10"
+            />
+            <br/> 內容：
+            <input class="ui input" id="coupon_content" name="coupon_content" type="text" placeholder="請輸入30字以內" />
+            <br/> 行政區：
+            <div class="field" style="font-family:微軟正黑體 ;">
+                <select id="coupon_district" class="ui fluid dropdown" style="font-family:微軟正黑體;">
+                    <option value="">請選擇行政區</option>
+                    <option value="1">臺北市</option>
+                    <option value="2">新北市</option>
+                    <option value="3">基隆市</option>
+                    <option value="4">桃園市</option>
+                    <option value="5">新竹縣</option>
+                    <option value="6">新竹市</option>
+                    <option value="7">苗栗縣</option>
+                    <option value="8">臺中市</option>
+                    <option value="9">南投縣</option>
+                    <option value="10">彰化縣</option>
+                    <option value="11">雲林縣</option>
+                    <option value="12">嘉義縣</option>
+                    <option value="13">嘉義市</option>
+                    <option value="14">臺南市</option>
+                    <option value="15">高雄市</option>
+                    <option value="16">屏東縣</option>
+                    <option value="17">宜蘭縣</option>
+                    <option value="18">花蓮縣</option>
+                    <option value="19">臺東縣</option>
+                    <option value="20">澎湖縣</option>
+                    <option value="21">金門縣</option>
+                    <option value="23">連江縣</option>
+                </select>
             </div>
             <br>
-            <form class="ui form" name="reg">
-                標題：
-                <input class="ui input" id="coupon_title" name="coupon_title" type="text" placeholder="請輸入10字以內" required maxlength="10"
-                />
-                <br/> 內容：
-                <input class="ui input" id="coupon_content" name="coupon_content" type="text" placeholder="請輸入30字以內" />
-                <br/> 行政區：
-                <div class="field" style="font-family:微軟正黑體 ;">
-                    <select class="ui fluid dropdown"  style="font-family:微軟正黑體;">
-                        <option value="">請選擇行政區</option>
-                        <option value="1">臺北市</option>
-                        <option value="2">新北市</option>
-                        <option value="3">基隆市</option>
-                        <option value="4">桃園市</option>
-                        <option value="5">新竹縣</option>
-                        <option value="6">新竹市</option>
-                        <option value="7">苗栗縣</option>
-                        <option value="8">臺中市</option>
-                        <option value="9">南投縣</option>
-                        <option value="10">彰化縣</option>
-                        <option value="11">雲林縣</option>
-                        <option value="12">嘉義縣</option>
-                        <option value="13">嘉義市</option>
-                        <option value="14">臺南市</option>
-                        <option value="15">高雄市</option>
-                        <option value="16">屏東縣</option>
-                        <option value="17">宜蘭縣</option>
-                        <option value="18">花蓮縣</option>
-                        <option value="19">臺東縣</option>
-                        <option value="20">澎湖縣</option>
-                        <option value="21">金門縣</option>
-                        <option value="23">連江縣</option>
-                    </select>
-                </div>
-                <br>
-                <button class="ui primary button" id="coupon_OK" onclick="createCoupon()">確定</button>
-                <button class="ui basic button"  onclick='noneById("wtf")' id="coupon_cancel">取消</button>
+            <button class="ui primary button" id="coupon_OK" onclick="createCoupon()">確定</button>
+            <button class="ui basic button" onclick="closeAllIcon()" id="coupon_cancel">取消</button>
 
-            </form>
+        </form>
 
-        </div>
     </div>
+</div>
 
 
 <div id="ad">
     <div class="ui message" style="font-family:微軟正黑體">
-        <i class="close icon" onclick='noneById("ad")'></i>
+        <i class="close icon" onclick='closeAllIcon()'></i>
         <div class="header" style="font-family:微軟正黑體 ; font-size:150%"> 你希望留下甚麼資訊?
         </div>
         <br>
@@ -159,7 +160,7 @@
             <br/>
         </form>
         <br>
-        <img id="preview" style="max-width: 50%; height: auto;">
+        <img id="preview" style="max-width: 50%; height: auto; " >
         <br>
         <br> 上傳廣告圖：
         <br>
@@ -308,26 +309,26 @@
 
                     });
                     alert("創建成功");
-                    document.getElementById(id).style.display = 'none';
+                    closeAllIcon();
                 });
             });
     };
     function createCoupon() {
 
-var coupon_id = randomWord(false,16);
-var coupon_title = document.getElementById("coupon_title").value;
-var coupon_content = document.getElementById("coupon_content").value;
+        var coupon_id = randomWord(false, 16);
+        var coupon_title = document.getElementById("coupon_title").value;
+        var coupon_content = document.getElementById("coupon_content").value;
 
-//選擇行政區
-//var coupon_district = document.getElementById("coupon_district").value;
+        //選擇行政區
+        //var coupon_district = document.getElementById("coupon_district").value;
 
 
 
-var coupon = new Array(coupon_title, coupon_content, coupon_id, coupon_district);
-//var coupon = new Array(coupon_title,coupon_content,coupon_id);
-window.ExtObj_createCoupon.responseResult(coupon);
-noneById("wtf");
-}
+        var coupon = new Array(coupon_title, coupon_content, coupon_id, coupon_district);
+        //var coupon = new Array(coupon_title,coupon_content,coupon_id);
+        window.ExtObj_createCoupon.responseResult(coupon);
+        noneById("wtf");
+    }
     var btn = () => {
         gltf_img = img_base64_mirror;
         gltf_bin = "https://simondagg.github.io/webar/gltf_test/simple/scene.bin";
@@ -338,13 +339,13 @@ noneById("wtf");
         var assets = document.getElementById("assets");
         var ad = document.createElement("a-asset-item");
         assets.appendChild(ad);
-        ad.setAttribute("id", "ad");
+        ad.setAttribute("id", "ad_mod");
         ad.setAttribute('src', "data:model/gltf+json;;base64, " + gltf_base64);
         var scene = document.getElementById("scene");
         var gp03 = document.createElement("a-entity");
         scene.appendChild(gp03);
         gp03.setAttribute("id", "gp03");
-        gp03.setAttribute("gltf-model", "#ad");
+        gp03.setAttribute("gltf-model", "#ad_mod");
 
         setAd("gp03");
     };
@@ -366,8 +367,13 @@ noneById("wtf");
         } catch (e) {
             console.log("i dont know what happen");
         }
-
+        closeAllIcon()
     }
+
+    let closeAllIcon = function () {
+        noneById("ad");
+        noneById("wtf");
+    };
 </script>
 
 
