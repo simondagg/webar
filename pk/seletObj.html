@@ -24,7 +24,7 @@
         <img src="img/put.png">
     </button>
 
-    <button type="button" onclick="arrayCreateObj()" id="updata">
+    <button type="button" onclick="_init_()" id="updata">
         <img src="img/updata.png">
 
         <button type="button" onclick="objCursorEvent()" id="pick">
@@ -75,7 +75,7 @@
         var lon = document.getElementById("lon").value;
         var lat = document.getElementById("lat").value;
         var XY = gcs2Gauss(lon, lat);
-        var arPosition = rotationMatrix(x, y, deltaAlpha);
+        var arPosition = rotationMatrix(XY[0],XY[1], deltaAlpha);
 
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
     };
@@ -119,7 +119,7 @@
         obj.setAttribute("scale", scale);
         datax.push(-arPosition[0]);
         datay.push(arPosition[1]);
-        document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
+        document.getElementById(id).object3D.position.set(-arPosition[0] , 0, arPosition[1] );
     };
     var objCursorEvent = () => {
         for (var i = 0; i < dataArrayy.length; i++) {
