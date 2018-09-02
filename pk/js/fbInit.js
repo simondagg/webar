@@ -57,19 +57,3 @@ function randomWord(randomFlag, min, max) {
     return str;
 }
 
-var updataObj = (dataArray) => {
-    dataArray = [];
-    var i = 0;
-    var query = firebase.database().ref("Object").orderByKey();
-    query.once("value")
-        .then(function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var key = childSnapshot.key;
-                var childData = childSnapshot.val();
-                dataArray.push(childData);
-                dataArray[i] = Object.assign(dataArray[i], { objid: key });
-                i = i + 1;
-            });
-        });
-    return dataArray;
-};
