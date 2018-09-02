@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <script src="js/noneNblock.js"></script>
 
-<body onload="init()">
+<body>
     <div id="lat" value=0></div>
     <div id="lon" value=0></div>
     <div id="deltaAlpha" value=0></div>
@@ -24,12 +24,12 @@
         <img src="img/put.png">
     </button>
 
-    <button type="button" onclick="arrayCreateObj(dataArrayy)" id="updata">
-            <img src="img/updata.png">
+    <button type="button" onclick="arrayCreateObj()" id="updata">
+        <img src="img/updata.png">
 
-    <button type="button" onclick="objCursorEvent()" id="pick">
-        <img src="img/pick.png">
-    </button>
+        <button type="button" onclick="objCursorEvent()" id="pick">
+            <img src="img/pick.png">
+        </button>
 </body>
 <script src="js/getGPS.js"></script>
 <script src="js/gcs2Gauss.js"></script>
@@ -46,19 +46,19 @@
     var datay = [];
 
 
-
-    var init = () => {
+    var _init_ = () => {
         datax = [];
         datay = [];
-        deletDataArray(dataArrayy);
+
         var deltaAlpha = document.getElementById("deltaAlpha").value;
         deltaAlpharam = deltaAlpha;
         setCamera("camera", deltaAlpharam);
+        deletDataArray(dataArrayy);
+        updataObj().then(() => {
+            arrayCreateObj(dataArrayy);
+        })
 
-        dataArrayy = updataObj(dataArrayy);//刷新物件列
-        arrayCreateObj(dataArrayy);//新增物件
-        
-        console.log("hi");
+
     };
     var setCamera = (id, deltaAlpha) => {
         var lon = document.getElementById("lon").value;
@@ -80,11 +80,15 @@
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
     };
 
-    var arrayCreateObj = (dataArray) => {
+
+    function arrayCreateObj(dataArray) {
         for (var i = 0; i < dataArray.length; i++) {
+
             setPosition(dataArray[i].x, dataArray[i].y, dataArray[i].objid, dataArray[i].module, deltaAlpharam);
         }
-    };
+    }
+
+
     var deletDataArray = (dataArray) => {
         for (var i = 0; i < dataArray.length; i++) {
             deletAnyObj(dataArray[i].objid);
@@ -125,7 +129,7 @@
     var showObjImfo = (objImfo) => {
         var addfri = '<div id="add_fri"> <div class="ui message"> <i class="close icon" onclick="deletAddFriForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> 大寶 <i class="female icon" style="color:rgb(252, 150, 201)"></i> </div> <br> </div>';
         addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<h5>' + objImfo.content + '</h5>';
-        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button class="ui basic button like addfriend" onclick="object_addfriend("FDZQcGP1RjbfLACovlORVyYRXMJ2")"> <i class="like icon"></i> 加好友 </button> <button class="ui basic button bullhorn report addfriend" onclick="object_report("'+objImfo.objid+'")"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button class="ui basic button like addfriend" onclick="object_addfriend("' + objImfo.user + '")"> <i class="like icon"></i> 加好友 </button> <button class="ui basic button bullhorn report addfriend" onclick="object_report("' + objImfo.objid + '")"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
         document.getElementById("addFriForm").innerHTML = addfri;
     };
 
@@ -134,7 +138,33 @@
         addFriForm.removeChild(document.getElementById("add_fri"));
     };
 
-    init();
+    Object.size = function (obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
 
-    setTimeout(init(),10000);
+    var updataObj = () => {
+        dataArrayy = []
+        var i = 0;
+        var query = firebase.database().ref("Object").orderByKey();
+        query.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+
+                    dataArrayy.push(childData);
+                    dataArrayy[i] = Object.assign(dataArrayy[i], { objid: key });
+                    i = i + 1;
+                });
+            });
+        return query.once("value").then();
+    };
+
+    setTimeout(_init_(), 10000);
+
+
 </script>
