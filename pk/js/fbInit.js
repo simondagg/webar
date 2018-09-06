@@ -57,3 +57,19 @@ function randomWord(randomFlag, min, max) {
     return str;
 }
 
+var userName;
+    var getUserName = () => {
+        var ref = firebase.database().ref("User/" + userID + "/name");
+
+        ref.once("value")
+            .then(function (snapshot) {
+                userName = snapshot.val();
+
+            });
+        return ref.once("value").then();
+    }
+
+    getUserName().then(() => {
+        console.log(userName);
+    });
+
