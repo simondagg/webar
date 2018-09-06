@@ -53,24 +53,43 @@ let okButton = function () {
 
     let oid = randomWord(false,16);
     
-    firebase.database().ref('Object/'+oid).set({
-        name:userName,
-        module: obj_id,
-        Latitude: lat,
-        Longitude : lon,
-        content : ob_content,
-        date: firebase.database.ServerValue.TIMESTAMP,
-        title: ob_title,
-        type: ob_type,
-        user: userID,
-        x :XY[0],
-        y: XY[1]
+    var userName;
+  
 
-      });
-    console.log("創建成功");
-    noneById("sendForm");
-    init();
+    getUserName().then(() => {
+        firebase.database().ref('Object/'+oid).set({
+            name:userName,
+            module: obj_id,
+            Latitude: lat,
+            Longitude : lon,
+            content : ob_content,
+            date: firebase.database.ServerValue.TIMESTAMP,
+            title: ob_title,
+            type: ob_type,
+            user: userID,
+            x :XY[0],
+            y: XY[1]
     
+          });
+          alert(userName)
+        console.log("創建成功");
+        noneById("sendForm");
+        init();
+    });
+
+
+    
+    
+};
+var getUserName = () => {
+    var ref = firebase.database().ref("User/" + userID + "/name");
+
+    ref.once("value")
+        .then(function (snapshot) {
+            userName = snapshot.val();
+
+        });
+    return ref.once("value").then();
 };
 
 let closeIcon=function(){
