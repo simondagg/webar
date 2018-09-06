@@ -1,5 +1,5 @@
 document.getElementById("arCam").innerHTML = '<video id="video" autoplay></video>';
-document.getElementById("vrScene").innerHTML = '<a-scene id="scene" vr-mode-ui="enabled: false"> <a-camera id="camera" position="0 0 0"></a-camera> <a-assets id="assets"> <a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item> <a-asset-item id="geodude" src="gltf/geodude/scene.gltf"></a-asset-item> <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf"></a-asset-item> </a-assets> </a-scene>';
+document.getElementById("vrScene").innerHTML = '<a-scene id="scene" vr-mode-ui="enabled: false"> <a-camera id="camera" position="0 0 0"></a-camera> <a-assets id="assets"><a-asset-item id="gift" src="gltf/gift/scene.gltf"></a-asset-item><a-asset-item id="bulbasaur" src="gltf/bulbasaur/scene.gltf"></a-asset-item> <a-asset-item id="geodude" src="gltf/geodude/scene.gltf"></a-asset-item> <a-asset-item id="poliwhirl" src="gltf/poliwhirl/scene.gltf"></a-asset-item> </a-assets> </a-scene>';
 
 //video id="video"
 //a-scene id="scene"
