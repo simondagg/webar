@@ -1,0 +1,255 @@
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="Semantic-UI-CSS-master/semantic.min.css">
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+<script src="Semantic-UI-CSS-master/semantic.min.js"></script>
+<script src="js/aframe.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/layout.css">
+<script src="js/noneNblock.js"></script>
+
+<body>
+    <div id="lat" value=0></div>
+    <div id="lon" value=0></div>
+    <div id="deltaAlpha" value=0></div>
+
+    <div id="arCam"></div>
+    <div id="vrScene"></div>
+    <div id="point"></div>
+    <div id="putObjForm"></div>
+    <div id="addFriForm"></div>
+    <div id="addCouForm"></div>
+    <button type="button" onclick='blockById("sendForm")' id="put">
+        <img src="img/put.png">
+    </button>
+
+    <button type="button" onclick="_init_()" id="updata">
+        <img src="img/updata.png">
+
+        <button type="button" onclick="objCursorEvent()" id="pick">
+            <img src="img/pick.png">
+        </button>
+</body>
+<script src="js/getGPS.js"></script>
+<script src="js/gcs2Gauss.js"></script>
+<script src="js/arInit.js"></script>
+<script src="js/fbInit.js"></script>
+
+
+<script src="js/putObjForm.js" charset="UTF-8"></script>
+
+<script>
+    var deltaAlpharam = 0;
+    var dataArrayy = [];//多一個y
+    var datax = [];
+    var datay = [];
+    var couponArray = [];
+    var couponx= [];
+    var coupony =[];
+
+    var _init_ = () => {
+        datax = [];
+        datay = [];
+        couponx= []
+        coupony= []
+        var deltaAlpha = document.getElementById("deltaAlpha").value;
+        deltaAlpharam = deltaAlpha;
+        setCamera("camera", deltaAlpharam);
+        deletDataArray(dataArrayy);
+        deletCursorArray(couponArray);
+        updataObj().then(() => {
+            arrayCreateObj(dataArrayy);
+        });
+
+        updataCoupon().then(() => {
+            arrayCreateCoupon(couponArray);
+        });
+
+
+    };
+    var setCamera = (id, deltaAlpha) => {
+        var lon = document.getElementById("lon").value;
+        var lat = document.getElementById("lat").value;
+        var XY = gcs2Gauss(lon, lat);
+        var arPosition = rotationMatrix(XY[0], XY[1], deltaAlpha);
+
+        document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
+    };
+
+    var setRealCoordinate = (id, deltaAlpha) => {
+        //這是說明書
+        var camera = document.getElementById("camera").object3D.position;
+        var lon = document.getElementById("lon").value;
+        var lat = document.getElementById("lat").value;
+        var XY = gcs2Gauss(lon, lat);
+        var arPosition = rotationMatrix(XY[0], XY[1], deltaAlpha);
+
+        document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
+    };
+    /////////////////
+    var arrayCreateCoupon=()=>{
+        for (var i = 0; i <couponArray.length; i++) {
+            setCoupon(couponArray[i].x, couponArray[i].y,couponArray[i].couponid, deltaAlpharam);
+           
+        }
+    }
+    var setCoupon =(x,y,id,deltaAlpha) =>{
+        var camera = document.getElementById("camera").object3D.position;
+        var scene = document.getElementById("scene");
+        var arPosition = rotationMatrix(x, y, deltaAlpha);
+        var obj = document.createElement("a-entity");
+        scene.appendChild(obj);
+        obj.setAttribute("id", id);
+        obj.setAttribute("gltf-model", "#gift");
+        couponx.push(-arPosition[0]);
+        coupony.push(arPosition[1]);
+        document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
+
+    }
+
+    var updataCoupon = () => {
+        couponArray = []
+        var i = 0;
+        var query = firebase.database().ref("Coupon").orderByKey();
+        query.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+
+                    couponArray.push(childData);
+                    couponArray[i] = Object.assign(couponArray[i], { couponid: key });
+                    i = i + 1;
+                });
+            });
+        return query.once("value").then();
+    };
+
+
+
+       var objCursorEvent = () => {
+        for (var i = 0; i < dataArrayy.length; i++) {
+            (cursor(datax[i], datay[i])) ? showObjImfo(dataArrayy[i]) : doNothing();
+        }
+
+        for (var i = 0; i < couponArray.length; i++) {
+            (cursor(couponx[i], coupony[i])) ? showCursorImfo(couponArray[i]) : doNothing();
+        }
+
+    }
+
+    var deletCursorArray = (dataArray) => {
+        for (var i = 0; i < dataArray.length; i++) {
+            deletAnyObj(dataArray[i].couponid);
+        }
+
+    };
+
+    var showCursorImfo =(objImfo)=>{
+        var addfri = '<div id="addCou"> <div class="ui message"> <i class="close icon" onclick="deletaddCouForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> ' + objImfo.title + '  </div> <br>';
+        addfri = addfri + '<p>' + objImfo.content + '</p>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.user + '"class="ui basic button like addfriend" onclick="collection(this.id)"> <i class="like icon"></i> 收藏 </button> <button id="' + objImfo.couponid + '"class="ui basic button bullhorn report addfriend" onclick="couponReport(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        document.getElementById("addCouForm").innerHTML = addfri;
+    }
+
+    var deletaddCouForm = () =>{
+        var addCouForm = document.getElementById("addCouForm");
+        addCouForm.removeChild(document.getElementById("addCou"));
+    }
+
+    var collection=(couponid)=>{
+
+        firebase.database().ref('Collection/'+couponid+'/'+userID).set({
+        date: firebase.database.ServerValue.TIMESTAMP
+      });
+      firebase.database().ref('Collection/'+userID+'/'+couponid).set({
+        date: firebase.database.ServerValue.TIMESTAMP
+      });
+    }
+
+    var couponReport=(couponid)=>{
+
+    }
+    //////////////////
+    var  arrayCreateObj= (dataArray)=> {
+        for (var i = 0; i < dataArray.length; i++) {
+
+            setPosition(dataArray[i].x, dataArray[i].y, dataArray[i].objid, dataArray[i].module, deltaAlpharam);
+        }
+    }
+
+
+    var deletDataArray = (dataArray) => {
+        for (var i = 0; i < dataArray.length; i++) {
+            deletAnyObj(dataArray[i].objid);
+        }
+
+    };
+
+    var deletAnyObj = (id) => {
+        try {
+            var scene = document.getElementById("scene");
+            scene.removeChild(document.getElementById(id));
+        } catch (e) {
+            console.log("i dont know what happen");
+        }
+
+    };
+    let setPosition = (x, y, id, modClass, deltaAlpha) => {//obj
+        var camera = document.getElementById("camera").object3D.position;
+        var scene = document.getElementById("scene");
+        var arPosition = rotationMatrix(x, y, deltaAlpha);//
+        var obj = document.createElement("a-entity");
+        scene.appendChild(obj);
+        obj.setAttribute("id", id);
+        var modname = (modClass == 1) ? "#bulbasaur" : (modClass == 2) ? "#geodude" : (modClass == 3) ? "#poliwhirl" : "#bulbasaur";
+        var scale = (modClass == 1) ? "1 1 1" : (modClass == 2) ? "0.5 0.5 0.5" : (modClass == 3) ? "0.3 0.3 0.3" : "0.3 0.3 0.3";
+
+        obj.setAttribute("gltf-model", modname);
+        obj.setAttribute("scale", scale);
+        datax.push(-arPosition[0]);
+        datay.push(arPosition[1]);
+        document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
+    };
+ 
+    var showObjImfo = (objImfo) => {
+        var addfri = '<div id="add_fri"> <div class="ui message"> <i class="close icon" onclick="deletAddFriForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> '+objImfo.name+'  </div> ';
+        addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<p>' + objImfo.content + '</p>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.user + '"class="ui basic button like addfriend" onclick="object_addfriend(this.id)"> <i class="like icon"></i> 加好友 </button> <button id="' + objImfo.objid + '"class="ui basic button bullhorn report addfriend" onclick="object_report(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        document.getElementById("addFriForm").innerHTML = addfri;
+
+    };
+
+    var deletAddFriForm = () => {
+        var addFriForm = document.getElementById("addFriForm");
+        addFriForm.removeChild(document.getElementById("add_fri"));
+    };
+
+   
+
+    var updataObj = () => {
+        dataArrayy = []
+        var i = 0;
+        var query = firebase.database().ref("Object").orderByKey();
+        query.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+
+                    dataArrayy.push(childData);
+                    dataArrayy[i] = Object.assign(dataArrayy[i], { objid: key });
+                    i = i + 1;
+                });
+            });
+        return query.once("value").then();
+    };
+
+  
+    
+    setTimeout(_init_(), 10000);
+
+
+</script>
