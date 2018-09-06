@@ -160,7 +160,7 @@
             <br/>
         </form>
         <br>
-        <img id="preview" style="max-width: 50%; height: auto; " >
+        <img id="preview" style="max-width: 50%; height: auto; ">
         <br>
         <br> 上傳廣告圖：
         <br>
@@ -318,16 +318,36 @@
         var coupon_id = randomWord(false, 16);
         var coupon_title = document.getElementById("coupon_title").value;
         var coupon_content = document.getElementById("coupon_content").value;
+        let lat = document.getElementById("lat").value;
+        let lon = document.getElementById("lon").value;
+        if (lat == 0) {
+                        alert("GPS錯誤");
+                    }
+        var XY = gcs2Gauss(lon, lat);
 
         //選擇行政區
         //var coupon_district = document.getElementById("coupon_district").value;
 
 
 
-        var coupon = new Array(coupon_title, coupon_content, coupon_id, coupon_district);
+       
         //var coupon = new Array(coupon_title,coupon_content,coupon_id);
-        window.ExtObj_createCoupon.responseResult(coupon);
+        firebase.database().ref('Coupon/' + coupon_id).set({
+
+            Latitude: lat,
+            Longitude: lon,
+            content: coupon_content,
+            date: firebase.database.ServerValue.TIMESTAMP,
+            district: coupon_district,
+            title: coupon_title,
+            user: userID,
+            x: XY[0],
+            y: XY[1]
+
+        });
+        showCoupon();
         noneById("wtf");
+
     }
     var btn = () => {
         gltf_img = img_base64_mirror;
@@ -374,6 +394,23 @@
         noneById("ad");
         noneById("wtf");
     };
+
+
+    let showCoupon = ()=>{
+        var scene = document.getElementById("scene");
+        var  coupon= document.createElement("a-entity");
+        scene.appendChild(coupon);
+        coupon.setAttribute("id", "coupon");
+        coupon.setAttribute("gltf-model", "#gift");
+        coupon.setAttribute("scale", "0.25 0.25 0.25");
+        var camera = document.getElementById("camera");
+        var c_x = camera.object3D.position.x, c_z = camera.object3D.position.z;
+        var c_y = camera.object3D.rotation.y;
+        c_z = c_z - 5 * Math.cos(c_y);
+        c_x = c_x - 5 * Math.sin(c_y);
+        coupon.object3D.position.set(c_x , 0, c_z);
+        
+    }
 </script>
 
 
