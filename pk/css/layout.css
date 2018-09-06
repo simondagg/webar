@@ -61,3 +61,11 @@
     
     bottom: 20%;
 }
+
+#addCou {
+    position: fixed;
+    right: 10%;
+    width: 80%;
+    
+    bottom: 20%;
+}
