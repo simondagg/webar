@@ -20,6 +20,7 @@
     <div id="point"></div>
     <div id="putObjForm"></div>
     <div id="addFriForm"></div>
+    <div id="addCouForm"></div>
     <button type="button" onclick='blockById("sendForm")' id="put">
         <img src="img/put.png">
     </button>
@@ -44,19 +45,27 @@
     var dataArrayy = [];//多一個y
     var datax = [];
     var datay = [];
-
+    var couponArray = [];
+    var couponx= [];
+    var coupony =[];
 
     var _init_ = () => {
         datax = [];
         datay = [];
-
+        couponx= []
+        coupony= []
         var deltaAlpha = document.getElementById("deltaAlpha").value;
         deltaAlpharam = deltaAlpha;
         setCamera("camera", deltaAlpharam);
         deletDataArray(dataArrayy);
+        deletCursorArray(couponArray);
         updataObj().then(() => {
             arrayCreateObj(dataArrayy);
-        })
+        });
+
+        updataCoupon().then(() => {
+            arrayCreateCoupon(couponArray);
+        });
 
 
     };
@@ -75,13 +84,96 @@
         var lon = document.getElementById("lon").value;
         var lat = document.getElementById("lat").value;
         var XY = gcs2Gauss(lon, lat);
-        var arPosition = rotationMatrix(XY[0],XY[1], deltaAlpha);
+        var arPosition = rotationMatrix(XY[0], XY[1], deltaAlpha);
 
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
     };
+    /////////////////
+    var arrayCreateCoupon=()=>{
+        for (var i = 0; i <couponArray.length; i++) {
+            setCoupon(dataArray[i].x, dataArray[i].y, dataArray[i].couponid, deltaAlpharam);
+           
+        }
+    }
+    var setCoupon =(x,y,id,deltaAlpha) =>{
+        var camera = document.getElementById("camera").object3D.position;
+        var scene = document.getElementById("scene");
+        var arPosition = rotationMatrix(x, y, deltaAlpha);
+        var obj = document.createElement("a-entity");
+        scene.appendChild(obj);
+        obj.setAttribute("id", id);
+        obj.setAttribute("gltf-model", "#gift");
+        couponx.push(-arPosition[0]);
+        coupony.push(arPosition[1]);
+        document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
+
+    }
+
+    var updataCoupon = () => {
+        couponArray = []
+        var i = 0;
+        var query = firebase.database().ref("Coupon").orderByKey();
+        query.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+
+                    couponArray.push(childData);
+                    couponArray[i] = Object.assign(couponArray[i], { couponid: key });
+                    i = i + 1;
+                });
+            });
+        return query.once("value").then();
+    };
 
 
-    function arrayCreateObj(dataArray) {
+
+       var objCursorEvent = () => {
+        for (var i = 0; i < dataArrayy.length; i++) {
+            (cursor(datax[i], datay[i])) ? showObjImfo(dataArrayy[i]) : doNothing();
+        }
+
+        for (var i = 0; i < couponArray.length; i++) {
+            (cursor(couponx[i], coupony[i])) ? showCursorImfo(couponArray[i]) : doNothing();
+        }
+
+    }
+
+    var deletCursorArray = (dataArray) => {
+        for (var i = 0; i < dataArray.length; i++) {
+            deletAnyObj(dataArray[i].couponid);
+        }
+
+    };
+
+    var showCursorImfo =(objImfo)=>{
+        var addfri = '<div id="addCou"> <div class="ui message"> <i class="close icon" onclick="deletaddCouForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> ' + objImfo.title + '  </div> <br>';
+        addfri = addfri + '<p>' + objImfo.content + '</p>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.user + '"class="ui basic button like addfriend" onclick="collection(this.id)"> <i class="like icon"></i> 收藏 </button> <button id="' + objImfo.couponid + '"class="ui basic button bullhorn report addfriend" onclick="couponReport(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        document.getElementById("addCouForm").innerHTML = addfri;
+    }
+
+    var deletaddCouForm = () =>{
+        var addCouForm = document.getElementById("addCouForm");
+        addCouForm.removeChild(document.getElementById("addCou"));
+    }
+
+    var collection=(couponid)=>{
+
+        firebase.database().ref('Collection/'+couponid+'/'+userID).set({
+        date: firebase.database.ServerValue.TIMESTAMP
+      });
+      firebase.database().ref('Collection/'+userID+'/'+couponid).set({
+        date: firebase.database.ServerValue.TIMESTAMP
+      });
+    }
+
+    var couponReport=(couponid)=>{
+
+    }
+    //////////////////
+    var  arrayCreateObj= (dataArray)=> {
         for (var i = 0; i < dataArray.length; i++) {
 
             setPosition(dataArray[i].x, dataArray[i].y, dataArray[i].objid, dataArray[i].module, deltaAlpharam);
@@ -119,19 +211,15 @@
         obj.setAttribute("scale", scale);
         datax.push(-arPosition[0]);
         datay.push(arPosition[1]);
-        document.getElementById(id).object3D.position.set(-arPosition[0] , 0, arPosition[1] );
+        document.getElementById(id).object3D.position.set(-arPosition[0], 0, arPosition[1]);
     };
-    var objCursorEvent = () => {
-        for (var i = 0; i < dataArrayy.length; i++) {
-            (cursor(datax[i], datay[i])) ? showObjImfo(dataArrayy[i]) : doNothing();
-        }
-    }
+ 
     var showObjImfo = (objImfo) => {
-        var addfri = '<div id="add_fri"> <div class="ui message"> <i class="close icon" onclick="deletAddFriForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> 大寶 <i class="female icon" style="color:rgb(252, 150, 201)"></i> </div> <br>';
-        addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<h5>' + objImfo.content + '</h5>';
-        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="'+objImfo.user+'"class="ui basic button like addfriend" onclick="object_addfriend(this.id)"> <i class="like icon"></i> 加好友 </button> <button id="'+objImfo.objid+'"class="ui basic button bullhorn report addfriend" onclick="object_report(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        var addfri = '<div id="add_fri"> <div class="ui message"> <i class="close icon" onclick="deletAddFriForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> '+objImfo.name+'  </div> ';
+        addfri = addfri + '<p>' + objImfo.title + '</p><br>' + '<p>' + objImfo.content + '</p>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.user + '"class="ui basic button like addfriend" onclick="object_addfriend(this.id)"> <i class="like icon"></i> 加好友 </button> <button id="' + objImfo.objid + '"class="ui basic button bullhorn report addfriend" onclick="object_report(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
         document.getElementById("addFriForm").innerHTML = addfri;
-        
+
     };
 
     var deletAddFriForm = () => {
@@ -139,13 +227,7 @@
         addFriForm.removeChild(document.getElementById("add_fri"));
     };
 
-    Object.size = function (obj) {
-        var size = 0, key;
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) size++;
-        }
-        return size;
-    };
+   
 
     var updataObj = () => {
         dataArrayy = []
@@ -165,6 +247,8 @@
         return query.once("value").then();
     };
 
+  
+    
     setTimeout(_init_(), 10000);
 
 
