@@ -70,6 +70,6 @@ var userName;
     }
 
     getUserName().then(() => {
-        console.log(userName);
+        alert(userName);
     });
 
