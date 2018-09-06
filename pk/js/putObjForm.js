@@ -54,6 +54,7 @@ let okButton = function () {
     let oid = randomWord(false,16);
     
     firebase.database().ref('Object/'+oid).set({
+        name:userName,
         module: obj_id,
         Latitude: lat,
         Longitude : lon,
