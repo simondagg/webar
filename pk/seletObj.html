@@ -161,10 +161,10 @@
 
     var collection=(couponid)=>{
 
-        firebase.database().ref('Collection/'+couponid+'/'+userID).set({
+        firebase.database().ref('CouponCollection/'+couponid+'/'+userID).set({
         date: firebase.database.ServerValue.TIMESTAMP
       });
-      firebase.database().ref('Collection/'+userID+'/'+couponid).set({
+      firebase.database().ref('CouponCollection/'+userID+'/'+couponid).set({
         date: firebase.database.ServerValue.TIMESTAMP
       });
     }
