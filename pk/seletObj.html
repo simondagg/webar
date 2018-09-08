@@ -150,7 +150,7 @@
     var showCursorImfo =(objImfo)=>{
         var addfri = '<div id="addCou"> <div class="ui message"> <i class="close icon" onclick="deletaddCouForm()"></i> <div class="header" style="font-family:微軟正黑體; font-size:150%"> ' + objImfo.title + '  </div> <br>';
         addfri = addfri + '<p>' + objImfo.content + '</p>';
-        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.user + '"class="ui basic button like addfriend" onclick="collection(this.id)"> <i class="like icon"></i> 收藏 </button> <button id="' + objImfo.couponid + '"class="ui basic button bullhorn report addfriend" onclick="couponReport(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
+        addfri = addfri + '<div id="AKQAAZSYRAKFPQSY" class="extra content"> <button id="' + objImfo.couponid + '"class="ui basic button like addfriend" onclick="collection(this.id)"> <i class="like icon"></i> 收藏 </button> <button id="' + objImfo.couponid + '"class="ui basic button bullhorn report addfriend" onclick="couponReport(this.id)"> <i class="bullhorn icon"></i> 檢舉 </button> </div> </div> </div>';
         document.getElementById("addCouForm").innerHTML = addfri;
     }
 
