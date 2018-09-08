@@ -162,10 +162,12 @@
     var collection=(couponid)=>{
 
         firebase.database().ref('CouponCollection/'+couponid+'/'+userID).set({
-        date: firebase.database.ServerValue.TIMESTAMP
+        date: firebase.database.ServerValue.TIMESTAMP,
+        pay:false
       });
       firebase.database().ref('CouponCollection/'+userID+'/'+couponid).set({
-        date: firebase.database.ServerValue.TIMESTAMP
+        date: firebase.database.ServerValue.TIMESTAMP,
+        pay:false  
       });
     }
 
