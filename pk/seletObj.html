@@ -91,7 +91,7 @@
         document.getElementById(id).object3D.position.set(-arPosition[0] + camera.x, 0, arPosition[1] + camera.z);
     };
     ///////////////////////////////////////////////////////////////////////////////
-    var arrayCreateAd =()=>{
+    var arrayCreateAd =(adArray)=>{
         for (var i = 0; i <adArray.length; i++) {
             setadArray(adArray[i].x, adArray[i].y,adArray[i].adid, deltaAlpharam,adArray[i].image);
            
@@ -141,7 +141,7 @@
         }
     };
 //////////////////////////////////////////////////////////////////////////////////////////////////
-    var arrayCreateCoupon=()=>{
+    var arrayCreateCoupon=(couponArray)=>{
         for (var i = 0; i <couponArray.length; i++) {
             setCoupon(couponArray[i].x, couponArray[i].y,couponArray[i].couponid, deltaAlpharam);
            
